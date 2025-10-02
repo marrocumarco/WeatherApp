@@ -22,7 +22,7 @@ struct ApiClientImpl: ApiClient {
     }
         
     private func fetchWeather(_ mode: FetchMode) async throws -> Weather {
-        var url = baseURL.appendingPathComponent(weatherEndPoint)
+        let url = baseURL.appendingPathComponent(weatherEndPoint)
             
         let apiCodeQueryItem = URLQueryItem(name: "appId", value: apiKey)
         
@@ -33,6 +33,8 @@ struct ApiClientImpl: ApiClient {
         let request = URLRequest(url: url.appending(queryItems: queryItems))
         
         let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // TODO check response for network errors
         
         return try JSONDecoder().decode(ApiQueryResponse.self, from: data).toWeather()
     }

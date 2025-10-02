@@ -8,21 +8,54 @@
 import Foundation
 
 @Observable
-final class LocalWeatherViewModel {
+final class LocalWeatherViewModel: WeatherViewModel {
+
     internal init(weatherUseCase: any WeatherUseCase) {
         self.weatherUseCase = weatherUseCase
     }
     
-    let weatherUseCase: WeatherUseCase
+    private let weatherUseCase: WeatherUseCase
     
-    func fetchWeather() {
+    var locationName: String = ""
+    
+    var searchMode: SearchMode = .location
+
+    var weatherDescription: String = ""
+
+    var weatherDetails: String = ""
+
+    var temperature: String = ""
+
+    var minimumTemperature: String = ""
+
+    var maximumTemperature: String = ""
+
+    
+    private(set) var weather: Weather? {
+        didSet {
+            updateWeatherProperties()
+        }
+    }
+    
+    private func updateWeatherProperties() {
+        guard let weather else { return }
+        self.locationName = weather.name
+        self.weatherDescription = weather.mainDescription
+        self.weatherDetails = weather.detailedDescription
+        self.temperature = "\(Int(weather.temperature.rounded(.down)))°C"
+        self.minimumTemperature = "\(Int(weather.minimumTemperature.rounded(.down)))°C"
+        self.maximumTemperature = "\(Int(weather.maximumTemperature.rounded(.down)))°C"
+    }
+    
+    func fetchWeatherByLocation() {
         Task {
             do {
-                let weather = try await weatherUseCase.fetchWeatherFor("Rome")
-                print(weather)
+                weather = try await weatherUseCase.fetchWeatherForCurrentLocation()
             } catch {
                 print(error)
             }
         }
     }
+    
+    func fetchWeatherByCityName(_ cityName: String) {}
 }

@@ -18,12 +18,13 @@ struct ApiQueryResponse: Decodable {
             id: id,
             name: name,
             mainDescription: weather.first?.main ?? "",
-            detailedDescription: weather.description,
+            detailedDescription: weather.first?.description ?? "",
             temperature: main.temperature,
             minimumTemperature: main.minimumTemperature,
             maximumTemperature: main.maximumTemperature,
             pressure: main.pressure,
-            humidity: main.humidity
+            humidity: main.humidity,
+            iconId: weather.first?.icon ?? ""
         )
     }
 }

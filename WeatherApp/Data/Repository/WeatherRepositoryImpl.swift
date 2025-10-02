@@ -8,7 +8,9 @@
 import Foundation
 
 struct WeatherRepositoryImpl: WeatherRepository {
+
     let apiClient: ApiClient
+    let imageLoader: ImageLoader
     
     func fetchWeatherBy(_ coordinates: Coordinates) async throws -> Weather {
         try await apiClient.fetchWeatherBy(coordinates)
@@ -16,5 +18,9 @@ struct WeatherRepositoryImpl: WeatherRepository {
     
     func fetchWeatherBy(_ cityName: String) async throws -> Weather {
         try await apiClient.fetchWeatherBy(cityName)
+    }
+    
+    func fetchImageWith(_ iconId: String) async throws -> Data {
+        try await imageLoader.fetchImageWith(iconId)
     }
 }
