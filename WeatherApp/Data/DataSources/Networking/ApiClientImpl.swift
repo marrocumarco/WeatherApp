@@ -22,7 +22,7 @@ struct ApiClientImpl: ApiClient {
     }
         
     private func fetchWeather(_ mode: FetchMode) async throws -> Weather {
-        let url = baseURL.appendingPathComponent(weatherEndPoint)
+        var url = baseURL.appendingPathComponent(weatherEndPoint)
             
         let apiCodeQueryItem = URLQueryItem(name: "appId", value: apiKey)
         
@@ -30,7 +30,7 @@ struct ApiClientImpl: ApiClient {
         
         queryItems.append(apiCodeQueryItem)
         
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: url.appending(queryItems: queryItems))
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
@@ -43,7 +43,7 @@ struct ApiClientImpl: ApiClient {
             return [URLQueryItem(name: "q", value: cityName)]
         case .byCoordinates(let coordinates):
             return [URLQueryItem(name: "lat", value: coordinates.latitude.description),
-            URLQueryItem(name: "lat", value: coordinates.longitude.description)]
+            URLQueryItem(name: "lon", value: coordinates.longitude.description)]
         }
     }
     

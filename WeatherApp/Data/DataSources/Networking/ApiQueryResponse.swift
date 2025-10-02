@@ -10,14 +10,14 @@ import Foundation
 struct ApiQueryResponse: Decodable {
     let id: Int
     let name: String
-    let weather: WeatherAPI
+    let weather: [WeatherAPI]
     let main: MainInfoApi
     
     func toWeather() -> Weather {
         Weather(
             id: id,
             name: name,
-            mainDescription: weather.main,
+            mainDescription: weather.first?.main ?? "",
             detailedDescription: weather.description,
             temperature: main.temperature,
             minimumTemperature: main.minimumTemperature,
