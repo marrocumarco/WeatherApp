@@ -40,13 +40,15 @@ struct ApiClientImpl: ApiClient {
     }
     
     private func buildQueryItems(for mode: FetchMode) -> [URLQueryItem] {
+        var queryItems = [URLQueryItem(name: "units", value: "metric")] // TODO: - get units from system settings
         switch mode {
             case .byCityName(let cityName):
-            return [URLQueryItem(name: "q", value: cityName)]
+            queryItems.append(URLQueryItem(name: "q", value: cityName))
         case .byCoordinates(let coordinates):
-            return [URLQueryItem(name: "lat", value: coordinates.latitude.description),
-            URLQueryItem(name: "lon", value: coordinates.longitude.description)]
+            queryItems.append(contentsOf: [URLQueryItem(name: "lat", value: coordinates.latitude.description),
+            URLQueryItem(name: "lon", value: coordinates.longitude.description)])
         }
+        return queryItems
     }
     
     private enum FetchMode {
