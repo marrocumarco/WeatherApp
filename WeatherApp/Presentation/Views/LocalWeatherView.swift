@@ -11,13 +11,20 @@ struct LocalWeatherView: View {
     @State var viewModel: WeatherViewModel
     @State var searchText: String = ""
     var body: some View {
-        VStack {
-            HStack {
+        ZStack {
+            Image("background_sun")
+                .resizable()
+                .scaledToFill()
+            VStack {
+                HStack {
+                    Spacer()
+                    TemperatureAndLocationView(viewModel: viewModel)
+                }
                 Spacer()
-                TemperatureAndLocationView(viewModel: viewModel)
             }
-            Spacer()
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.top, 44)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
         .navigationTitle("Weather App")
         .searchable(text: $searchText)
         .onSubmit(of: .search) {
@@ -25,7 +32,6 @@ struct LocalWeatherView: View {
                 viewModel.fetchWeatherByCityName(searchText)
             }
         }
-        .padding()
         .onAppear() {
             if viewModel.searchMode == .location {
                 viewModel.fetchWeatherByLocation()
@@ -46,7 +52,7 @@ struct TemperatureAndLocationView: View {
                     Text("\(viewModel.maximumTemperature)")
                 }
             }.padding()
-            Label("Rome", systemImage: "location")
+            Label(viewModel.locationName, systemImage: "location")
         }
     }
 }
