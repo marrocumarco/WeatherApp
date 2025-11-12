@@ -12,15 +12,12 @@ struct LocalWeatherView: View {
     @State var searchText: String = ""
     var body: some View {
         VStack {
-            Text(viewModel.locationName)
-            Text(viewModel.weatherDescription)
-            Text(viewModel.temperature)
-            Text(viewModel.weatherDetails)
             HStack {
-                Text("\(viewModel.minimumTemperature)")
-                Text("\(viewModel.maximumTemperature)")
+                Spacer()
+                TemperatureAndLocationView(viewModel: viewModel)
             }
-        }
+            Spacer()
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle("Weather App")
         .searchable(text: $searchText)
         .onSubmit(of: .search) {
@@ -37,6 +34,23 @@ struct LocalWeatherView: View {
     }
 }
 
-//#Preview {
-//    ContentView(LocalWeatherViewModel())
-//}
+struct TemperatureAndLocationView: View {
+    @State var viewModel: WeatherViewModel
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text(viewModel.temperature)
+                    .font(.system(size: 45, weight: .semibold))
+                VStack {
+                    Text("\(viewModel.minimumTemperature)")
+                    Text("\(viewModel.maximumTemperature)")
+                }
+            }.padding()
+            Label("Rome", systemImage: "location")
+        }
+    }
+}
+
+#Preview {
+    LocalWeatherView(viewModel: WeatherViewModelMock())
+}
