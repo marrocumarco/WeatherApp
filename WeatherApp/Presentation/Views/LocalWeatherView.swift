@@ -15,15 +15,24 @@ struct LocalWeatherView: View {
             Image("background_sun")
                 .resizable()
                 .scaledToFill()
-            VStack {
-                HStack {
+            ScrollView {
+                VStack(spacing: 140) {
+                    HStack {
+                        Spacer()
+                        TemperatureAndLocationView(viewModel: viewModel)
+                    }
                     Spacer()
-                    TemperatureAndLocationView(viewModel: viewModel)
+                    VStack {
+                        Text(viewModel.weatherDetails)
+                        VStack(spacing: 40) {
+                            DailyWeatherList(viewModel: viewModel)
+                            WeeklyWeatherList(viewModel: viewModel)
+                        }
+                    }
                 }
-                Spacer()
+                .padding(.top, 80)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .padding(.top, 44)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .navigationTitle("Weather App")
         .searchable(text: $searchText)
@@ -32,7 +41,7 @@ struct LocalWeatherView: View {
                 viewModel.fetchWeatherByCityName(searchText)
             }
         }
-        .onAppear() {
+        .onAppear {
             if viewModel.searchMode == .location {
                 viewModel.fetchWeatherByLocation()
             }
@@ -52,7 +61,7 @@ struct TemperatureAndLocationView: View {
                     Text("\(viewModel.maximumTemperature)")
                 }
             }.padding()
-            Label(viewModel.locationName, systemImage: "location")
+            Label("Rome", systemImage: "location")
         }
     }
 }
