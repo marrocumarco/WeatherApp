@@ -9,6 +9,10 @@ import Foundation
 
 @Observable
 final class SearchWeatherViewModel: WeatherViewModel {
+    var forecast: [ForecastUI] = []
+
+    func fetchTodayForecastByLocation() {
+    }
 
     internal init(weatherUseCase: any WeatherUseCase) {
         self.weatherUseCase = weatherUseCase

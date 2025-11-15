@@ -16,6 +16,8 @@ protocol WeatherViewModel: AnyObject {
     var maximumTemperature: String { get }
     func fetchWeatherByLocation()
     func fetchWeatherByCityName(_ cityName: String)
+    func fetchTodayForecastByLocation()
+    var forecast: [ForecastUI] { get }
     var searchMode: SearchMode { get }
 }
 

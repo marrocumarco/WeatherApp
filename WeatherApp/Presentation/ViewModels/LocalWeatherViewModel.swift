@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 final class LocalWeatherViewModel: WeatherViewModel {
-
+    
     internal init(weatherUseCase: any WeatherUseCase) {
         self.weatherUseCase = weatherUseCase
     }
@@ -37,6 +37,8 @@ final class LocalWeatherViewModel: WeatherViewModel {
         }
     }
     
+    private(set) var forecast: [ForecastUI] = []
+    
     private func updateWeatherProperties() {
         guard let weather else { return }
         self.locationName = weather.name
@@ -58,4 +60,24 @@ final class LocalWeatherViewModel: WeatherViewModel {
     }
     
     func fetchWeatherByCityName(_ cityName: String) {}
+    
+    func fetchTodayForecastByLocation() {
+        Task {
+            do {
+                forecast = try await weatherUseCase.fetchTodayForecastForCurrentLocation().map{ForecastUI.from(forecast: $0)}
+            } catch {
+                print(error)
+            }
+        }
+    }
+}
+
+struct ForecastUI: Identifiable {
+    var id: String { time + temperature }
+    let time: String
+    let temperature: String
+    
+    static func from(forecast: Forecast) -> Self {
+        ForecastUI(time: forecast.date.formatted(.dateTime.hour(.twoDigits(amPM: .omitted))), temperature: String(format: "%.1f°", forecast.temperature))
+    }
 }

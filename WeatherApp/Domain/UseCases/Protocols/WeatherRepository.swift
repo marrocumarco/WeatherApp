@@ -10,5 +10,6 @@ import Foundation
 protocol WeatherRepository {
     func fetchWeatherBy(_ coordinates: Coordinates) async throws -> Weather
     func fetchWeatherBy(_ cityName: String) async throws -> Weather
-    func fetchImageWith(_ iconId: String) async throws -> Data 
+    func fetchForecastBy(_ coordinates: Coordinates, numberOfForecasts: Int) async throws -> [Forecast]
+    func fetchImageWith(_ iconId: String) async throws -> Data
 }

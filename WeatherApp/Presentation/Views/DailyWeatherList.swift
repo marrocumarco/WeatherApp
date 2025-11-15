@@ -12,35 +12,24 @@ struct DailyWeatherList: View {
     var body: some View {
         ScrollView(.horizontal) {
             LazyHStack {
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
-                DailyWeatherCell(viewModel: viewModel)
+                ForEach(viewModel.forecast) { forecast in
+                    DailyWeatherCell(time: forecast.time, temperature: forecast.temperature)
+                }
             }
         }.scrollIndicators(.never)
     }
 }
 
 struct DailyWeatherCell: View {
-    @State var viewModel: WeatherViewModel
+    let time: String
+    let temperature: String
     var body: some View {
         VStack {
-            Text("18:00").font(.system(size: 8, weight: .regular))
+            Text(time).font(.system(size: 8, weight: .regular))
             Image(systemName: "sun.max")
                 .resizable()
                 .frame(width: 18, height: 18)
-            Text("\(viewModel.maximumTemperature)")
+            Text(temperature)
                 .font(.system(size: 10, weight: .regular))
         }
     }

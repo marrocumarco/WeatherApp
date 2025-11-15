@@ -9,6 +9,7 @@ import Foundation
 
 struct WeatherRepositoryImpl: WeatherRepository {
 
+
     let apiClient: ApiClient
     let imageLoader: ImageLoader
     
@@ -18,6 +19,10 @@ struct WeatherRepositoryImpl: WeatherRepository {
     
     func fetchWeatherBy(_ cityName: String) async throws -> Weather {
         try await apiClient.fetchWeatherBy(cityName)
+    }
+    
+    func fetchForecastBy(_ coordinates: Coordinates, numberOfForecasts: Int) async throws -> [Forecast] {
+        try await apiClient.fetchForecastBy(coordinates, numberOfForecasts: numberOfForecasts)
     }
     
     func fetchImageWith(_ iconId: String) async throws -> Data {

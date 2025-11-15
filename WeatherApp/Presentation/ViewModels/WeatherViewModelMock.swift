@@ -8,6 +8,11 @@
 import Foundation
 
 public class WeatherViewModelMock: WeatherViewModel {
+    var forecast: [ForecastUI] = []
+
+    func fetchTodayForecastByLocation() {
+    }
+
     var locationName: String = "ROMAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
     var weatherDescription: String = "weatherDescription: Fa freddisssssiiimoooooooooooooo"

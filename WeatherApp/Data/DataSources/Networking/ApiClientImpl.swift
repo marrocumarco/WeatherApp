@@ -9,6 +9,7 @@ import Foundation
 
 struct ApiClientImpl: ApiClient {
 
+
     private let baseUrlKey = "API_BASE_URL"
     private let apiKeyKey = "API_KEY"
     private let baseURL: URL
@@ -29,13 +30,19 @@ struct ApiClientImpl: ApiClient {
             throw ApiClientImplError.cannotInitializeClient
         }
     }
+
+    func fetchForecastBy(_ coordinates: Coordinates, numberOfForecasts: Int) async throws -> [Forecast] {
+        return try await fetchForecast(.byCoordinates(coordinates), numberOfForecasts: numberOfForecasts)
+    }
     
-    private func fetchForecast(_ mode: FetchMode) async throws -> [Forecast] {
+    private func fetchForecast(_ mode: FetchMode, numberOfForecasts: Int) async throws -> [Forecast] {
         let url = baseURL.appendingPathComponent(forecastEndPoint)
         
         let apiCodeQueryItem = URLQueryItem(name: "appId", value: apiKey)
         
         var queryItems = buildQueryItems(for: mode)
+        
+        queryItems.append(URLQueryItem(name: "cnt", value: numberOfForecasts.description))
         
         queryItems.append(apiCodeQueryItem)
         
@@ -82,7 +89,7 @@ struct ApiClientImpl: ApiClient {
         case .byCoordinates(let coordinates):
             queryItems.append(contentsOf: [
                 URLQueryItem(name: "lat", value: coordinates.latitude.description),
-                URLQueryItem(name: "lon", value: coordinates.longitude.description),
+                URLQueryItem(name: "lon", value: coordinates.longitude.description)
             ])
         }
         return queryItems

@@ -44,6 +44,7 @@ struct LocalWeatherView: View {
         .onAppear {
             if viewModel.searchMode == .location {
                 viewModel.fetchWeatherByLocation()
+                viewModel.fetchTodayForecastByLocation()
             }
         }
     }

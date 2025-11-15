@@ -9,6 +9,7 @@ import Foundation
 
 protocol WeatherUseCase {
     func fetchWeatherForCurrentLocation() async throws -> Weather
+    func fetchTodayForecastForCurrentLocation() async throws -> [Forecast]
     func fetchWeatherFor(_ cityName: String) async throws -> Weather
     func fetchImageFor(_ weather: Weather) async throws -> Data
 }
