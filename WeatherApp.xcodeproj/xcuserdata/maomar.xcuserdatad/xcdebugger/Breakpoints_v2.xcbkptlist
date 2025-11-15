@@ -14,54 +14,10 @@
             filePath = "WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "fetchWeatherBy(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "296E0126-C5FF-4190-B606-0ADC522D73D1 - 28fcc711a813f01e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for WeatherApp.ApiClientImpl.fetchWeatherBy(WeatherApp.Coordinates) async throws -&gt; WeatherApp.Weather"
-                  moduleName = "WeatherApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32">
-               </Location>
-               <Location
-                  uuid = "296E0126-C5FF-4190-B606-0ADC522D73D1 - f133b25d47710ff7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for WeatherApp.ApiClientImpl.fetchWeatherBy(WeatherApp.Coordinates) async throws -&gt; WeatherApp.Weather"
-                  moduleName = "WeatherApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32">
-               </Location>
-               <Location
-                  uuid = "296E0126-C5FF-4190-B606-0ADC522D73D1 - 3d0b754398b1d613"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for WeatherApp.ApiClientImpl.fetchWeatherBy(WeatherApp.Coordinates) async throws -&gt; WeatherApp.Weather"
-                  moduleName = "WeatherApp.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -74,8 +30,8 @@
             filePath = "WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "fetchWeather(_:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -14,7 +14,8 @@ struct ApiClientImpl: ApiClient {
     private let baseURL: URL
     private let apiKey: String
     private let weatherEndPoint = "weather"
-
+    private let forecastEndPoint = "forecast"
+    
     init() throws {
         if let url = Bundle.main.url(forResource: "Info", withExtension: "plist"),
             let dict = NSDictionary(contentsOf: url) as? [String: Any],
@@ -28,6 +29,25 @@ struct ApiClientImpl: ApiClient {
             throw ApiClientImplError.cannotInitializeClient
         }
     }
+    
+    private func fetchForecast(_ mode: FetchMode) async throws -> [Forecast] {
+        let url = baseURL.appendingPathComponent(forecastEndPoint)
+        
+        let apiCodeQueryItem = URLQueryItem(name: "appId", value: apiKey)
+        
+        var queryItems = buildQueryItems(for: mode)
+        
+        queryItems.append(apiCodeQueryItem)
+        
+        let request = URLRequest(url: url.appending(queryItems: queryItems))
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // TODO check response for network errors
+        
+        return try JSONDecoder().decode(ForecastQueryResponse.self, from: data).toForecast()
+    }
+    
     func fetchWeatherBy(_ coordinates: Coordinates) async throws -> Weather {
         try await fetchWeather(.byCoordinates(coordinates))
     }
@@ -51,7 +71,7 @@ struct ApiClientImpl: ApiClient {
 
         // TODO check response for network errors
 
-        return try JSONDecoder().decode(ApiQueryResponse.self, from: data).toWeather()
+        return try JSONDecoder().decode(WeatherQueryResponse.self, from: data).toWeather()
     }
 
     private func buildQueryItems(for mode: FetchMode) -> [URLQueryItem] {

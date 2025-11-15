@@ -1,5 +1,5 @@
 //
-//  ApiQueryResponse.swift
+//  WeatherQueryResponse.swift
 //  WeatherApp
 //
 //  Created by maomar on 02/10/25.
@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct ApiQueryResponse: Decodable {
+struct WeatherQueryResponse: Decodable {
     let id: Int
     let name: String
-    let weather: [WeatherAPI]
+    let weather: [WeatherApi]
     let main: MainInfoApi
     
     func toWeather() -> Weather {
