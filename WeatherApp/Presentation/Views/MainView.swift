@@ -14,7 +14,7 @@ struct MainView: View {
                 weatherUseCase: WeatherUseCaseImpl(
                     locationProvider: LocationProviderImpl(),
                     weatherRepository: WeatherRepositoryImpl(
-                        apiClient: ApiClientImpl(),
+                        apiClient: try! ApiClientImpl(),
                         imageLoader: ImageLoaderImpl()
                     )
                 )

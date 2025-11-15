@@ -42,9 +42,9 @@ final class LocalWeatherViewModel: WeatherViewModel {
         self.locationName = weather.name
         self.weatherDescription = weather.mainDescription
         self.weatherDetails = weather.detailedDescription
-        self.temperature = "\(Int(weather.temperature.rounded(.down)))°C"
-        self.minimumTemperature = "\(Int(weather.minimumTemperature.rounded(.down)))°C"
-        self.maximumTemperature = "\(Int(weather.maximumTemperature.rounded(.down)))°C"
+        self.temperature = "\(Int(weather.temperature.rounded(.down)))° C"
+        self.minimumTemperature = "\(Int(weather.minimumTemperature.rounded(.down)))°"
+        self.maximumTemperature = "\(Int(weather.maximumTemperature.rounded(.down)))°"
     }
     
     func fetchWeatherByLocation() {

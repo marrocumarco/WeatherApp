@@ -61,7 +61,7 @@ struct TemperatureAndLocationView: View {
                     Text("\(viewModel.maximumTemperature)")
                 }
             }.padding()
-            Label("Rome", systemImage: "location")
+            Label(viewModel.locationName, systemImage: "location")
         }
     }
 }
