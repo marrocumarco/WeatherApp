@@ -9,6 +9,6 @@ import Foundation
 
 struct Forecast {
     let date: Date
-    let iconId: String
+    let iconId: Int
     let temperature: Double
 }

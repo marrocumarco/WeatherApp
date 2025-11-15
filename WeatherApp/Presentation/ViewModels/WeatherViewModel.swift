@@ -8,16 +8,11 @@
 import Foundation
 
 protocol WeatherViewModel: AnyObject {
-    var locationName: String { get }
-    var weatherDescription: String { get }
-    var weatherDetails: String { get }
-    var temperature: String { get }
-    var minimumTemperature: String { get }
-    var maximumTemperature: String { get }
     func fetchWeatherByLocation()
     func fetchWeatherByCityName(_ cityName: String)
     func fetchTodayForecastByLocation()
     var forecast: [ForecastUI] { get }
+    var weather: WeatherUI? { get }
     var searchMode: SearchMode { get }
 }
 

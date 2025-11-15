@@ -9,6 +9,7 @@ import Foundation
 
 @Observable
 final class SearchWeatherViewModel: WeatherViewModel {
+
     var forecast: [ForecastUI] = []
 
     func fetchTodayForecastByLocation() {
@@ -18,11 +19,7 @@ final class SearchWeatherViewModel: WeatherViewModel {
         self.weatherUseCase = weatherUseCase
     }
     
-    private(set) var weather: Weather? {
-        didSet {
-            updateWeatherProperties()
-        }
-    }
+    private(set) var weather: WeatherUI?
     
     private let weatherUseCase: WeatherUseCase
     
@@ -33,7 +30,8 @@ final class SearchWeatherViewModel: WeatherViewModel {
     func fetchWeatherByCityName(_ cityName: String) {
         Task {
             do {
-                weather = try await weatherUseCase.fetchWeatherFor(cityName)
+                let weather = try await weatherUseCase.fetchWeatherFor(cityName)
+                self.weather = WeatherUI.from(weather: weather)
             } catch {
                 print(error)
             }
@@ -51,14 +49,4 @@ final class SearchWeatherViewModel: WeatherViewModel {
     var minimumTemperature: String = ""
     
     var maximumTemperature: String = ""
-    
-    private func updateWeatherProperties() {
-        guard let weather else { return }
-        self.locationName = weather.name
-        self.weatherDescription = weather.mainDescription
-        self.weatherDetails = weather.detailedDescription
-        self.temperature = "\(Int(weather.temperature.rounded(.down)))°C"
-        self.minimumTemperature = "MIN \(Int(weather.minimumTemperature.rounded(.down)))°C"
-        self.maximumTemperature = "MAX \(Int(weather.maximumTemperature.rounded(.down)))°C"
-    }
 }

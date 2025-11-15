@@ -17,5 +17,4 @@ struct Weather {
     let maximumTemperature: Double
     let pressure: Int
     let humidity: Int
-    let iconId: String
 }

@@ -12,7 +12,7 @@ struct ForecastQueryResponse: Decodable {
     
     func toForecast() -> [Forecast] {
         list.map {
-            Forecast(date: Date(timeIntervalSince1970: TimeInterval($0.dt)), iconId: $0.weather.first?.icon ?? "", temperature: $0.main.temp)
+            Forecast(date: Date(timeIntervalSince1970: TimeInterval($0.dt)), iconId: $0.weather.first?.id ?? 0, temperature: $0.main.temp)
         }
     }
 }

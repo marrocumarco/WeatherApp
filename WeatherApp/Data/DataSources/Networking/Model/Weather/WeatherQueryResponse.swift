@@ -8,14 +8,13 @@
 import Foundation
 
 struct WeatherQueryResponse: Decodable {
-    let id: Int
     let name: String
     let weather: [WeatherApi]
     let main: MainInfoApi
     
     func toWeather() -> Weather {
         Weather(
-            id: id,
+            id: weather.first?.id ?? 0,
             name: name,
             mainDescription: weather.first?.main ?? "",
             detailedDescription: weather.first?.description ?? "",
@@ -23,10 +22,7 @@ struct WeatherQueryResponse: Decodable {
             minimumTemperature: main.minimumTemperature,
             maximumTemperature: main.maximumTemperature,
             pressure: main.pressure,
-            humidity: main.humidity,
-            iconId: weather.first?.icon ?? ""
+            humidity: main.humidity
         )
     }
 }
-
-

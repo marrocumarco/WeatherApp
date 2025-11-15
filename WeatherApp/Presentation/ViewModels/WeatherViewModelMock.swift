@@ -8,22 +8,14 @@
 import Foundation
 
 public class WeatherViewModelMock: WeatherViewModel {
-    var forecast: [ForecastUI] = []
+    var weather: WeatherUI?
+
+    var forecast: [ForecastUI] = [ForecastUI(time: "14", temperature: "23,5°", iconName: "sun"),
+                                  ForecastUI(time: "15", temperature: "22,5°", iconName: "cloud"),
+                                  ForecastUI(time: "16", temperature: "21,5°", iconName: "rain")]
 
     func fetchTodayForecastByLocation() {
     }
-
-    var locationName: String = "ROMAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-
-    var weatherDescription: String = "weatherDescription: Fa freddisssssiiimoooooooooooooo"
-
-    var weatherDetails: String = "weatherDetails: Fa freddisssssiiimoooooooooooooo"
-
-    var temperature: String = "110° C"
-
-    var minimumTemperature: String = "-110° C"
-
-    var maximumTemperature: String = "300° F"
 
     func fetchWeatherByLocation() {
     }

@@ -22,13 +22,7 @@ struct LocalWeatherView: View {
                         TemperatureAndLocationView(viewModel: viewModel)
                     }
                     Spacer()
-                    VStack {
-                        Text(viewModel.weatherDetails)
-                        VStack(spacing: 40) {
-                            DailyWeatherList(viewModel: viewModel)
-                            WeeklyWeatherList(viewModel: viewModel)
-                        }
-                    }
+                    DailyCardView(viewModel: viewModel)
                 }
                 .padding(.top, 80)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -55,18 +49,34 @@ struct TemperatureAndLocationView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(viewModel.temperature)
+                Text(viewModel.weather?.temperature ?? "")
                     .font(.system(size: 45, weight: .semibold))
                 VStack {
-                    Text("\(viewModel.minimumTemperature)")
-                    Text("\(viewModel.maximumTemperature)")
+                    Text(viewModel.weather?.minimumTemperature ?? "")
+                    Text(viewModel.weather?.maximumTemperature ?? "")
                 }
             }.padding()
-            Label(viewModel.locationName, systemImage: "location")
+            Label(viewModel.weather?.locationName ?? "", systemImage: "location")
         }
     }
 }
 
+struct DailyCardView: View {
+    @State var viewModel: WeatherViewModel
+    var body: some View {
+        VStack {
+            Text(viewModel.weather?.weatherDetails ?? "")
+            VStack(spacing: 40) {
+                DailyWeatherList(viewModel: viewModel)
+            }
+        }
+        .padding(.vertical)
+        .background(.ultraThinMaterial)
+        .cornerRadius(16)
+        .padding(.horizontal)
+    }
+}
+
 #Preview {
-    LocalWeatherView(viewModel: WeatherViewModelMock())
+    DailyCardView(viewModel: WeatherViewModelMock())
 }

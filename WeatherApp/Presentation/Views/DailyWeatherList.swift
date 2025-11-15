@@ -10,27 +10,34 @@ import SwiftUI
 struct DailyWeatherList: View {
     @State var viewModel: WeatherViewModel
     var body: some View {
-        ScrollView(.horizontal) {
+        ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
                 ForEach(viewModel.forecast) { forecast in
-                    DailyWeatherCell(time: forecast.time, temperature: forecast.temperature)
+                    DailyWeatherCell(time: forecast.time, temperature: forecast.temperature, iconName: forecast.iconName)
                 }
             }
-        }.scrollIndicators(.never)
+        }
+
     }
 }
 
 struct DailyWeatherCell: View {
     let time: String
     let temperature: String
+    let iconName: String
     var body: some View {
         VStack {
-            Text(time).font(.system(size: 8, weight: .regular))
-            Image(systemName: "sun.max")
+            Text(time)
+            Image(systemName: iconName)
                 .resizable()
+                .scaledToFit()
                 .frame(width: 18, height: 18)
             Text(temperature)
-                .font(.system(size: 10, weight: .regular))
-        }
+        }.font(.system(.subheadline, weight: .regular))
+            .padding(10)
     }
+}
+
+#Preview {
+    DailyWeatherList(viewModel: WeatherViewModelMock())
 }

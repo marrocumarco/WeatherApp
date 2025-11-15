@@ -28,6 +28,6 @@ struct WeatherUseCaseImpl: WeatherUseCase {
     }
     
     func fetchImageFor(_ weather: Weather) async throws -> Data {
-        try await weatherRepository.fetchImageWith(weather.iconId)
+        Data()//try await weatherRepository.fetchImageWith(weather.id)
     }
 }
