@@ -8,24 +8,26 @@
 import Foundation
 
 @Observable
-final class LocalWeatherViewModel: WeatherViewModel {
+final class LocalWeatherViewModel: WeatherViewModel, LocationProviderDelegate {
     
-    internal init(weatherUseCase: any WeatherUseCase) {
+    internal init(weatherUseCase: any WeatherUseCase, locationProvider: LocationProvider) {
         self.weatherUseCase = weatherUseCase
+        self.locationProvider = locationProvider
+        self.locationProvider.locationProviderDelegate = self
     }
     
     private let weatherUseCase: WeatherUseCase
     
-    var searchMode: SearchMode = .location
+    private let locationProvider: LocationProvider
     
     private(set) var weather: WeatherUI?
     
     private(set) var forecast: [ForecastUI] = []
     
-    func fetchWeatherByLocation() {
+    func fetchWeatherBy(_ location: Coordinates) {
         Task {
             do {
-                let weather = try await weatherUseCase.fetchWeatherForCurrentLocation()
+                let weather = try await weatherUseCase.fetchWeatherFor(location)
                 self.weather = WeatherUI.from(weather: weather)
             } catch {
                 print(error)
@@ -35,14 +37,20 @@ final class LocalWeatherViewModel: WeatherViewModel {
     
     func fetchWeatherByCityName(_ cityName: String) {}
     
-    func fetchTodayForecastByLocation() {
+    func fetchTodayForecastBy(_ location: Coordinates) {
         Task {
             do {
-                forecast = try await weatherUseCase.fetchTodayForecastForCurrentLocation().map{ForecastUI.from(forecast: $0)}
+                forecast = try await weatherUseCase.fetchTodayForecastFor(location).map{ForecastUI.from(forecast: $0)}
             } catch {
                 print(error)
             }
         }
+    }
+    
+    //MARK: - LocationProviderDelegate
+    func onLocationAvailable(coordinates: Coordinates) {
+        fetchWeatherBy(coordinates)
+        fetchTodayForecastBy(coordinates)
     }
 }
 
@@ -61,7 +69,8 @@ struct ForecastUI: Identifiable {
     }
 }
 
-struct WeatherUI {
+struct WeatherUI: Identifiable {
+    var id: String { locationName }
     let locationName: String
     let weatherDescription: String
     let weatherDetails: String

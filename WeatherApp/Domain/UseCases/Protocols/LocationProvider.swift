@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol LocationProvider {
-    func getCurrentLocation() throws -> Coordinates
+protocol LocationProvider: AnyObject {
+    var locationProviderDelegate: LocationProviderDelegate? { get set }
 }

@@ -8,8 +8,8 @@
 import Foundation
 
 protocol WeatherUseCase {
-    func fetchWeatherForCurrentLocation() async throws -> Weather
-    func fetchTodayForecastForCurrentLocation() async throws -> [Forecast]
+    func fetchWeatherFor(_ location: Coordinates) async throws -> Weather
+    func fetchTodayForecastFor(_ location: Coordinates) async throws -> [Forecast]
     func fetchWeatherFor(_ cityName: String) async throws -> Weather
     func fetchImageFor(_ weather: Weather) async throws -> Data
 }

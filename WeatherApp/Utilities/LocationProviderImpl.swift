@@ -8,8 +8,12 @@
 import CoreLocation
 import Foundation
 
+protocol LocationProviderDelegate: AnyObject {
+    func onLocationAvailable(coordinates: Coordinates)
+}
+
 final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerDelegate {
-    
+   
     override init() {
         super.init()
         locationManager.delegate = self
@@ -17,20 +21,20 @@ final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerD
         locationManager.requestLocation()
     }
     
-    let locationManager = CLLocationManager()
-
-    func getCurrentLocation() throws -> Coordinates {
-        guard let location = locationManager.location else {
-            throw LocationProviderError.cannotGetLocation
-        }
-        
-        return Coordinates(
-            latitude: location.coordinate.latitude,
-            longitude: location.coordinate.longitude
-        )
-    }
+    weak var locationProviderDelegate: LocationProviderDelegate?
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {}
+    let locationManager = CLLocationManager()
+        
+    func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse,
+           !locations.isEmpty {
+            let coordinates = Coordinates(
+                latitude: locations.first!.coordinate.latitude,
+                longitude: locations.first!.coordinate.longitude
+            )
+            locationProviderDelegate?.onLocationAvailable(coordinates: coordinates)
+        }
+    }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
         print(error)

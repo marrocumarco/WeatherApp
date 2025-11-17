@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LocalWeatherView: View {
     @State var viewModel: WeatherViewModel
-    @State var searchText: String = ""
+
     var body: some View {
         ZStack {
             Image("background_sun")
@@ -26,19 +26,6 @@ struct LocalWeatherView: View {
                 }
                 .padding(.top, 80)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-        }
-        .navigationTitle("Weather App")
-        .searchable(text: $searchText)
-        .onSubmit(of: .search) {
-            if viewModel.searchMode == .cityName {
-                viewModel.fetchWeatherByCityName(searchText)
-            }
-        }
-        .onAppear {
-            if viewModel.searchMode == .location {
-                viewModel.fetchWeatherByLocation()
-                viewModel.fetchTodayForecastByLocation()
             }
         }
     }

@@ -9,16 +9,26 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        LocalWeatherView(
-            viewModel: LocalWeatherViewModel(
+        //        LocalWeatherView(
+        //            viewModel: LocalWeatherViewModel(
+        //                weatherUseCase: WeatherUseCaseImpl(
+        //                    weatherRepository: WeatherRepositoryImpl(
+        //                        apiClient: try! ApiClientImpl(),
+        //                        imageLoader: ImageLoaderImpl()
+        //                    )
+        //                ), locationProvider: LocationProviderImpl()
+        //            )
+        //        ).ignoresSafeArea()
+        WeatherListView(
+            viewModel: WeatherListViewModel(
                 weatherUseCase: WeatherUseCaseImpl(
-                    locationProvider: LocationProviderImpl(),
                     weatherRepository: WeatherRepositoryImpl(
                         apiClient: try! ApiClientImpl(),
                         imageLoader: ImageLoaderImpl()
                     )
-                )
+                ),
+                locationProvider: LocationProviderImpl()
             )
-        ).ignoresSafeArea()
+        )
     }
 }

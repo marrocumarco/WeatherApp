@@ -9,25 +9,26 @@ import Foundation
 
 struct WeatherUseCaseImpl: WeatherUseCase {
 
-    let locationProvider: LocationProvider
     let weatherRepository: WeatherRepository
     let numberOfForecasts = 8
     
-    func fetchWeatherForCurrentLocation() async throws -> Weather {
-        let coordinates = try locationProvider.getCurrentLocation()
-        return try await weatherRepository.fetchWeatherBy(coordinates)
+    func fetchWeatherFor(_ location: Coordinates) async throws -> Weather {
+        return try await weatherRepository.fetchWeatherBy(location)
     }
 
     func fetchWeatherFor(_ cityName: String) async throws -> Weather {
         return try await weatherRepository.fetchWeatherBy(cityName)
     }
     
-    func fetchTodayForecastForCurrentLocation() async throws -> [Forecast] {
-        let coordinates = try locationProvider.getCurrentLocation()
-        return try await weatherRepository.fetchForecastBy(coordinates, numberOfForecasts: numberOfForecasts)
+    func fetchTodayForecastFor(_ location: Coordinates) async throws -> [Forecast] {
+        return try await weatherRepository.fetchForecastBy(location, numberOfForecasts: numberOfForecasts)
     }
     
     func fetchImageFor(_ weather: Weather) async throws -> Data {
         Data()//try await weatherRepository.fetchImageWith(weather.id)
+    }
+    
+    enum WeatherUseCaseImplError: Error {
+        case locationUnavailable
     }
 }
