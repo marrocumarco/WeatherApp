@@ -82,9 +82,9 @@ struct WeatherUI: Identifiable {
     static func from(weather: Weather) -> Self {
         WeatherUI(
             locationName: weather.name,
-            weatherDescription: weather.mainDescription,
-            weatherDetails: weather.detailedDescription,
-            temperature: "\(Int(weather.temperature.rounded(.down)))° C",
+            weatherDescription: weather.mainDescription.capitalized,
+            weatherDetails: weather.detailedDescription.capitalized,
+            temperature: "\(Int(weather.temperature.rounded(.down)))°C",
             minimumTemperature: "\(Int(weather.minimumTemperature.rounded(.down)))°",
             maximumTemperature: "\(Int(weather.maximumTemperature.rounded(.down)))°",
             iconName: IconProvider.iconName(for: weather.id)

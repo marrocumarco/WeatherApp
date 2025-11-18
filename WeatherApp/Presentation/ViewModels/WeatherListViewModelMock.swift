@@ -1,0 +1,21 @@
+//
+//  WeatherListViewModelMock.swift
+//  WeatherApp
+//
+//  Created by maomar on 18/11/25.
+//
+
+import Foundation
+
+struct WeatherListViewModelMock: WeatherListViewModel {
+
+    var weatherDetail: WeatherUI?
+    var weathersList: [WeatherUI] = [WeatherUI(locationName: "Roma", weatherDescription: "Pioggia", weatherDetails: "Pioggia a catinelle", temperature: "12°C", minimumTemperature: "5°C", maximumTemperature: "20°C", iconName: "rain"),
+                                     WeatherUI(locationName: "Roma", weatherDescription: "Pioggia", weatherDetails: "Pioggia a catinelle", temperature: "12°C", minimumTemperature: "5°C", maximumTemperature: "20°C", iconName: "rain"),
+                                     WeatherUI(locationName: "Roma", weatherDescription: "Pioggia", weatherDetails: "Pioggia a catinelle", temperature: "12°C", minimumTemperature: "5°C", maximumTemperature: "20°C", iconName: "rain")]
+
+    func onSearchCompleted(cityName: String) {
+    }
+    
+    func onWeatherSelected(weather: WeatherUI) {}
+}

@@ -20,7 +20,7 @@ struct MainView: View {
         //            )
         //        ).ignoresSafeArea()
         WeatherListView(
-            viewModel: WeatherListViewModel(
+            viewModel: WeatherListViewModelImpl(
                 weatherUseCase: WeatherUseCaseImpl(
                     weatherRepository: WeatherRepositoryImpl(
                         apiClient: try! ApiClientImpl(),
