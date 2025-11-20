@@ -10,17 +10,25 @@ import Foundation
 @Observable
 final class LocalWeatherViewModel: WeatherViewModel, LocationProviderDelegate {
     
-    internal init(weatherUseCase: any WeatherUseCase, locationProvider: LocationProvider) {
+    internal init(weather: WeatherUI, weatherUseCase: any WeatherUseCase, locationProvider: LocationProvider) {
+        self.weather = weather
         self.weatherUseCase = weatherUseCase
         self.locationProvider = locationProvider
         self.locationProvider.locationProviderDelegate = self
+        fetchTodayForecastBy(weather.locationName)
     }
     
     private let weatherUseCase: WeatherUseCase
     
     private let locationProvider: LocationProvider
     
-    private(set) var weather: WeatherUI?
+    private(set) var weather: WeatherUI? {
+        didSet {
+            if let weather {
+                fetchTodayForecastBy(weather.locationName)
+            }
+        }
+    }
     
     private(set) var forecast: [ForecastUI] = []
     
@@ -40,7 +48,17 @@ final class LocalWeatherViewModel: WeatherViewModel, LocationProviderDelegate {
     func fetchTodayForecastBy(_ location: Coordinates) {
         Task {
             do {
-                forecast = try await weatherUseCase.fetchTodayForecastFor(location).map{ForecastUI.from(forecast: $0)}
+                forecast = try await weatherUseCase.fetchTodayForecastFor(location).map{ ForecastUI.from(forecast: $0) }
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    func fetchTodayForecastBy(_ cityName: String) {
+        Task {
+            do {
+                forecast = try await weatherUseCase.fetchTodayForecastFor(cityName).map{ ForecastUI.from(forecast: $0) }
             } catch {
                 print(error)
             }
@@ -69,7 +87,7 @@ struct ForecastUI: Identifiable {
     }
 }
 
-struct WeatherUI: Identifiable {
+struct WeatherUI: Identifiable, Hashable {
     var id: String { locationName }
     let locationName: String
     let weatherDescription: String

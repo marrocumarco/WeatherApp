@@ -54,6 +54,9 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
         Task {
             do {
                 let currentLocationWeather = try await fetchWeatherBy(coordinates)
+                if weathersList.contains(currentLocationWeather) {
+                    weathersList.removeAll { $0 == currentLocationWeather }
+                }
                 weathersList.append(currentLocationWeather)
             } catch {
                 // TODO: - show error on UI

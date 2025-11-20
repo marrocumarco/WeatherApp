@@ -9,7 +9,6 @@ import Foundation
 
 struct WeatherRepositoryImpl: WeatherRepository {
 
-
     let apiClient: ApiClient
     let imageLoader: ImageLoader
     

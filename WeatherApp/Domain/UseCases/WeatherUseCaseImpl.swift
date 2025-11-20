@@ -8,8 +8,9 @@
 import Foundation
 
 struct WeatherUseCaseImpl: WeatherUseCase {
-
+    
     let weatherRepository: WeatherRepository
+    let geocoder: Geocoder
     let numberOfForecasts = 8
     
     func fetchWeatherFor(_ location: Coordinates) async throws -> Weather {
@@ -22,6 +23,11 @@ struct WeatherUseCaseImpl: WeatherUseCase {
     
     func fetchTodayForecastFor(_ location: Coordinates) async throws -> [Forecast] {
         return try await weatherRepository.fetchForecastBy(location, numberOfForecasts: numberOfForecasts)
+    }
+    
+    func fetchTodayForecastFor(_ cityName: String) async throws -> [Forecast] {
+        let coordinates = try await geocoder.getCoordinatesFrom(cityName)
+        return try await fetchTodayForecastFor(coordinates)
     }
     
     func fetchImageFor(_ weather: Weather) async throws -> Data {

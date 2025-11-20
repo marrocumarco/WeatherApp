@@ -7,48 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "296E0126-C5FF-4190-B606-0ADC522D73D1"
+            uuid = "FD5DFD47-572C-47B7-9DAC-182F1C485CAF"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
+            filePath = "WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "fetchWeatherBy(_:)"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "onSearchCompleted(cityName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "43E76667-D7AF-4273-B90D-099FF2579937"
+            uuid = "CE7395A7-9CBB-46FA-9AA4-7D486270E1A5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
+            filePath = "WeatherApp/Presentation/ViewModels/LocalWeatherViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "fetchWeather(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6F89C94B-06E0-4D42-AB6A-E347BFA37F54"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WeatherApp/Utilities/LocationProviderImpl.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "locationManager(_:didUpdateLocations:)"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "onLocationAvailable(coordinates:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

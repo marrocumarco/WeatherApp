@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct WeatherListView: View {
+    @Environment(Coordinator.self) var coordinator
     @State var viewModel: WeatherListViewModel
     @State var searchText: String = ""
 
     var body: some View {
-        NavigationStack {
             List(viewModel.weathersList) { weather in
                 WeatherListViewCell(weather: weather)
+                    .onTapGesture {
+                        coordinator.push(page: .weatherDetail(weather))
+                    }
             }.listStyle(.plain)
                 .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
                 .navigationTitle("Weather App")
@@ -22,7 +25,7 @@ struct WeatherListView: View {
                 .onSubmit(of: .search) {
                     viewModel.onSearchCompleted(cityName: searchText)
                 }
-        }
+        
     }
 }
 

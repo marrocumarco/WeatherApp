@@ -33,13 +33,15 @@ struct LocalWeatherView: View {
 
 struct TemperatureAndLocationView: View {
     @State var viewModel: WeatherViewModel
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text(viewModel.weather?.temperature ?? "")
                     .font(.system(size: 45, weight: .semibold))
                 VStack {
-                    Text(viewModel.weather?.minimumTemperature ?? "")
+                    Text(viewModel.weather?.minimumTemperature ?? " ")
+                        .animation(.default, value: viewModel.weather == nil)
                     Text(viewModel.weather?.maximumTemperature ?? "")
                 }
             }.padding()
@@ -65,5 +67,5 @@ struct DailyCardView: View {
 }
 
 #Preview {
-    DailyCardView(viewModel: WeatherViewModelMock())
+    TemperatureAndLocationView(viewModel: WeatherViewModelMock())
 }
