@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct DailyWeatherList: View {
-    @State var viewModel: WeatherViewModel
+    var forecastList: [ForecastUI]
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack {
-                ForEach(viewModel.forecast) { forecast in
+            HStack {
+                ForEach(forecastList) { forecast in
                     DailyWeatherCell(time: forecast.time, temperature: forecast.temperature, iconName: forecast.iconName)
                 }
             }
@@ -35,8 +35,4 @@ struct DailyWeatherCell: View {
         }.font(.system(.subheadline, weight: .regular))
             .padding(10)
     }
-}
-
-#Preview {
-    DailyWeatherList(viewModel: WeatherViewModelMock())
 }

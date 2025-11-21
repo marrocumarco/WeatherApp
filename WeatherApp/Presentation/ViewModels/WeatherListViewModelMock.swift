@@ -8,6 +8,8 @@
 import Foundation
 
 struct WeatherListViewModelMock: WeatherListViewModel {
+    var forecastList: [ForecastUI] = []
+
 
     var weatherDetail: WeatherUI?
     var weathersList: [WeatherUI] = [WeatherUI(locationName: "Roma", weatherDescription: "Pioggia", weatherDetails: "Pioggia a catinelle", temperature: "12°C", minimumTemperature: "5°C", maximumTemperature: "20°C", iconName: "rain"),

@@ -13,7 +13,7 @@ struct WeatherListView: View {
     @Environment(\.dismissSearch) var dismissSearch
     @Namespace var ns
     @State var selectedWeather: WeatherUI?
-
+    @State var offset: CGFloat = 0
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -23,6 +23,7 @@ struct WeatherListView: View {
                         WeatherListViewCell(weather: weather, ns: ns, isSource: !isPresented)
                             .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
                             .onTapGesture {
+                                viewModel.onWeatherSelected(weather: weather)
                                 withAnimation {
                                     selectedWeather = weather
                                 }
@@ -40,11 +41,24 @@ struct WeatherListView: View {
                 }
         }.overlay {
             if let selectedWeather {
-                WeatherDetailView(weather: selectedWeather, ns: ns)
-                    .onTapGesture {
-                        withAnimation {
-                            self.selectedWeather = nil
+                WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, ns: ns)
+                    .offset(y: offset)
+                    .gesture(DragGesture().onChanged { value in
+                        offset = value.translation.height
+                    }.onEnded { value in
+                        if value.translation.height > 100 {
+                            withAnimation {
+                                self.selectedWeather = nil
+                            }
+                            offset = 0
+                        } else {
+                            withAnimation {
+                                offset = 0
+                            }
                         }
+                    })
+                    .onTapGesture {
+                        
                     }
             }
         }
