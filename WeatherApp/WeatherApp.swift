@@ -7,23 +7,30 @@
 
 import SwiftUI
 let locationProvider = LocationProviderImpl()
+
 @main
 struct WeatherApp: App {
     
-    let weatherUseCase = WeatherUseCaseImpl(
-        weatherRepository: WeatherRepositoryImpl(
+    init() {
+        repository = WeatherRepositoryImpl(
             apiClient: try! ApiClientImpl(),
             imageLoader: ImageLoaderImpl()
-        ), geocoder: GeocoderImpl()
-    )
+        )
+        weatherUseCase = FetchWeatherUseCaseImpl(weatherRepository: repository, geocoder: geocoder)
+        forecastUseCase = FetchForecastUseCaseImpl(weatherRepository: repository, geocoder: geocoder)
+    }
     
-    //let locationProvider = LocationProviderImpl()
-    
+    private let repository: any WeatherRepository
+    private let geocoder = GeocoderImpl()
+    private let weatherUseCase: FetchWeatherUseCaseImpl
+    private let forecastUseCase: FetchForecastUseCaseImpl
+        
     var body: some Scene {
         WindowGroup {
             WeatherListView(
                 viewModel: WeatherListViewModelImpl(
                     weatherUseCase: weatherUseCase,
+                    forecastUseCase: forecastUseCase,
                     locationProvider: locationProvider
                 )
             )

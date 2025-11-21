@@ -10,7 +10,9 @@ import Foundation
 @Observable
 final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDelegate {
 
-    private let weatherUseCase: WeatherUseCase
+    private let weatherUseCase: FetchWeatherUseCase
+    
+    private let forecastUseCase: FetchForecastUseCase
     
     var weathersList: [WeatherUI] = []
 
@@ -20,8 +22,9 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
     
     let locationProvider: LocationProvider
     
-    internal init(weatherUseCase: any WeatherUseCase, locationProvider: LocationProvider) {
+    internal init(weatherUseCase: any FetchWeatherUseCase, forecastUseCase: any FetchForecastUseCase, locationProvider: LocationProvider) {
         self.weatherUseCase = weatherUseCase
+        self.forecastUseCase = forecastUseCase
         self.locationProvider = locationProvider
         self.locationProvider.locationProviderDelegate = self
     }
@@ -43,7 +46,7 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
     }
     
     private func fetchForecastByCityName(_ cityName: String) async throws -> [ForecastUI] {
-        let forecastList = try await weatherUseCase.fetchTodayForecastFor(cityName)
+        let forecastList = try await forecastUseCase.fetchTodayForecastFor(cityName)
         return forecastList.map {
             ForecastUI.from(forecast: $0)
         }

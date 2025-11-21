@@ -10,15 +10,17 @@ import Foundation
 @Observable
 final class LocalWeatherViewModel: WeatherViewModel, LocationProviderDelegate {
     
-    internal init(weather: WeatherUI, weatherUseCase: any WeatherUseCase, locationProvider: LocationProvider) {
+    internal init(weather: WeatherUI, weatherUseCase: any FetchWeatherUseCase, forecastUseCase: any FetchForecastUseCase, locationProvider: LocationProvider) {
         self.weather = weather
         self.weatherUseCase = weatherUseCase
+        self.forecastUseCase = forecastUseCase
         self.locationProvider = locationProvider
         self.locationProvider.locationProviderDelegate = self
         fetchTodayForecastBy(weather.locationName)
     }
     
-    private let weatherUseCase: WeatherUseCase
+    private let weatherUseCase: FetchWeatherUseCase
+    private let forecastUseCase: FetchForecastUseCase
     
     private let locationProvider: LocationProvider
     
@@ -48,7 +50,7 @@ final class LocalWeatherViewModel: WeatherViewModel, LocationProviderDelegate {
     func fetchTodayForecastBy(_ location: Coordinates) {
         Task {
             do {
-                forecast = try await weatherUseCase.fetchTodayForecastFor(location).map{ ForecastUI.from(forecast: $0) }
+                forecast = try await forecastUseCase.fetchTodayForecastFor(location).map{ ForecastUI.from(forecast: $0) }
             } catch {
                 print(error)
             }
@@ -58,7 +60,7 @@ final class LocalWeatherViewModel: WeatherViewModel, LocationProviderDelegate {
     func fetchTodayForecastBy(_ cityName: String) {
         Task {
             do {
-                forecast = try await weatherUseCase.fetchTodayForecastFor(cityName).map{ ForecastUI.from(forecast: $0) }
+                forecast = try await forecastUseCase.fetchTodayForecastFor(cityName).map{ ForecastUI.from(forecast: $0) }
             } catch {
                 print(error)
             }
