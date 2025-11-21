@@ -9,7 +9,10 @@ import SwiftUI
 
 struct LocalWeatherView: View {
     @State var viewModel: WeatherViewModel
-
+    @State var offset: CGFloat = 0
+    @Environment(\.dismiss) var dismiss
+    var ns: Namespace.ID
+    
     var body: some View {
         ZStack {
             Image("background_sun")
@@ -27,13 +30,28 @@ struct LocalWeatherView: View {
                 .padding(.top, 80)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-        }
+            //.scrollBounceBehavior(.basedOnSize)
+        }.offset(CGSize(width: 0, height: offset))
+            .simultaneousGesture(
+                DragGesture()
+                    .onChanged { value in
+                        offset = value.translation.height
+                    }.onEnded { value in
+                        if value.translation.height > 100 {
+                            dismiss()
+                        } else {
+                            withAnimation {
+                                offset = 0
+                            }
+                        }
+                    }
+            ).matchedGeometryEffect(id: "frame-\(viewModel.weather?.id ?? "")", in: ns, isSource: true)
     }
 }
 
 struct TemperatureAndLocationView: View {
     @State var viewModel: WeatherViewModel
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {

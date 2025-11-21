@@ -6,12 +6,27 @@
 //
 
 import SwiftUI
-
+let locationProvider = LocationProviderImpl()
 @main
 struct WeatherApp: App {
+    
+    let weatherUseCase = WeatherUseCaseImpl(
+        weatherRepository: WeatherRepositoryImpl(
+            apiClient: try! ApiClientImpl(),
+            imageLoader: ImageLoaderImpl()
+        ), geocoder: GeocoderImpl()
+    )
+    
+    //let locationProvider = LocationProviderImpl()
+    
     var body: some Scene {
         WindowGroup {
-            CoordinatorView(coordinator: Coordinator())
+            WeatherListView(
+                viewModel: WeatherListViewModelImpl(
+                    weatherUseCase: weatherUseCase,
+                    locationProvider: locationProvider
+                )
+            )
         }
     }
 }

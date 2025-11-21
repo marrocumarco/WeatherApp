@@ -88,7 +88,7 @@ struct ForecastUI: Identifiable {
 }
 
 struct WeatherUI: Identifiable, Hashable {
-    var id: String { locationName }
+    var id: String { hashValue.description }
     let locationName: String
     let weatherDescription: String
     let weatherDetails: String

@@ -8,35 +8,60 @@
 import SwiftUI
 
 struct WeatherListView: View {
-    @Environment(Coordinator.self) var coordinator
     @State var viewModel: WeatherListViewModel
     @State var searchText: String = ""
+    @Environment(\.dismissSearch) var dismissSearch
+    @Namespace var ns
+    @State var selectedWeather: WeatherUI?
 
     var body: some View {
-            List(viewModel.weathersList) { weather in
-                WeatherListViewCell(weather: weather)
-                    .onTapGesture {
-                        coordinator.push(page: .weatherDetail(weather))
+        NavigationStack {
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.weathersList) { weather in
+                        let isPresented = selectedWeather == weather
+                        WeatherListViewCell(weather: weather, ns: ns, isSource: !isPresented)
+                            .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
+                            .onTapGesture {
+                                withAnimation {
+                                    selectedWeather = weather
+                                }
+                            }
+                            .opacity(isPresented ? 0 : 1)
+                            .animation(.easeInOut, value: isPresented)
                     }
-            }.listStyle(.plain)
-                .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
+                }
+            }.contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
                 .navigationTitle("Weather App")
                 .searchable(text: $searchText)
                 .onSubmit(of: .search) {
                     viewModel.onSearchCompleted(cityName: searchText)
+                    dismissSearch()
                 }
-        
+        }.overlay {
+            if let selectedWeather {
+                WeatherDetailView(weather: selectedWeather, ns: ns)
+                    .onTapGesture {
+                        withAnimation {
+                            self.selectedWeather = nil
+                        }
+                    }
+            }
+        }
     }
 }
 
 struct WeatherListViewCell: View {
 
     var weather: WeatherUI
-
+    var ns: Namespace.ID
+    var isSource: Bool
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(weather.locationName).font(.system(size: 20, weight: .bold))
+                Text(weather.locationName)
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundStyle(.primary)
                 Group {
                     Text("My Location")
@@ -63,6 +88,39 @@ struct WeatherListViewCell: View {
     }
 }
 
-#Preview {
-    WeatherListView(viewModel: WeatherListViewModelMock(), searchText: "")
+struct WeatherDetailView: View {
+    
+    var weather: WeatherUI
+    var ns: Namespace.ID
+    
+    var body: some View {
+            VStack {
+                Text("My Location".uppercased())
+                    .font(.system(size: 13, weight: .bold))
+                    .drawingGroup()
+                    .matchedGeometryEffect(id: "position-\(weather.id)", in: ns)
+                Text(weather.locationName)
+                    .font(.system(size: 30))
+                    .foregroundStyle(.primary)
+                    .matchedGeometryEffect(id: "locationName-\(weather.id)", in: ns)
+                Text(weather.temperature)
+                    .font(.system(size: 80, weight: .light))
+                    .matchedGeometryEffect(id: "temperature-\(weather.id)", in: ns)
+                Text("\(weather.weatherDetails)")
+                    .foregroundStyle(.secondary)
+                    .matchedGeometryEffect(id: "weatherDetails-\(weather.id)", in: ns)
+                HStack {
+                    Text("\(weather.minimumTemperature)")
+                        .matchedGeometryEffect(id: "minimumTemperature-\(weather.id)", in: ns)
+                    Text("\(weather.maximumTemperature)")
+                        .matchedGeometryEffect(id: "maximumTemperature-\(weather.id)", in: ns)
+                }.font(.system(size: 12, weight: .medium))
+                Spacer()
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
+            .background(.ultraThinMaterial)
+            .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns)
+            .cornerRadius(12)
+            .animation(.easeInOut, value: true)
+    }
 }

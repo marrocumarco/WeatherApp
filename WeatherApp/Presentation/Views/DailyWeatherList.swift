@@ -17,7 +17,6 @@ struct DailyWeatherList: View {
                 }
             }
         }
-
     }
 }
 
