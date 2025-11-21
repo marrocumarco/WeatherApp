@@ -16,23 +16,21 @@ struct WeatherListView: View {
     @State var offset: CGFloat = 0
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVStack {
-                    ForEach(viewModel.weathersList) { weather in
-                        let isPresented = selectedWeather == weather
-                        WeatherListViewCell(weather: weather, ns: ns, isSource: !isPresented)
-                            .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
-                            .onTapGesture {
-                                viewModel.onWeatherSelected(weather: weather)
-                                withAnimation {
-                                    selectedWeather = weather
-                                }
-                            }
-                            .opacity(isPresented ? 0 : 1)
-                            .animation(.easeInOut, value: isPresented)
+            List($viewModel.weathersList, editActions: .move) { weather in
+                let isPresented = selectedWeather == weather.wrappedValue
+                WeatherListViewCell(weather: weather.wrappedValue, ns: ns, isSource: !isPresented)
+                    .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
+                    .onTapGesture {
+                        viewModel.onWeatherSelected(weather: weather.wrappedValue)
+                        withAnimation {
+                            selectedWeather = weather.wrappedValue
+                        }
                     }
-                }
-            }.contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
+                    .opacity(isPresented ? 0 : 1)
+                    .animation(.easeInOut, value: isPresented)
+            }
+            .listStyle(.plain)
+                .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
                 .navigationTitle("Weather App")
                 .searchable(text: $searchText)
                 .onSubmit(of: .search) {
@@ -43,22 +41,24 @@ struct WeatherListView: View {
             if let selectedWeather {
                 WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, ns: ns)
                     .offset(y: offset)
-                    .gesture(DragGesture().onChanged { value in
-                        offset = value.translation.height
-                    }.onEnded { value in
-                        if value.translation.height > 100 {
-                            withAnimation {
-                                self.selectedWeather = nil
-                            }
-                            offset = 0
-                        } else {
-                            withAnimation {
+                    .gesture(
+                        DragGesture().onChanged { value in
+                            offset = value.translation.height
+                        }.onEnded { value in
+                            if value.translation.height > 100 {
+                                withAnimation {
+                                    self.selectedWeather = nil
+                                }
                                 offset = 0
+                            } else {
+                                withAnimation {
+                                    offset = 0
+                                }
                             }
                         }
-                    })
+                    )
                     .onTapGesture {
-                        
+
                     }
             }
         }
@@ -70,7 +70,7 @@ struct WeatherListViewCell: View {
     var weather: WeatherUI
     var ns: Namespace.ID
     var isSource: Bool
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {

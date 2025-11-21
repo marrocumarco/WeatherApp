@@ -12,7 +12,7 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
 
     private let weatherUseCase: WeatherUseCase
     
-    private(set) var weathersList: [WeatherUI] = []
+    var weathersList: [WeatherUI] = []
 
     private(set) var weatherDetail: WeatherUI?
     
