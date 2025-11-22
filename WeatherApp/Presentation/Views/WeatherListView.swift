@@ -10,11 +10,10 @@ import SwiftUI
 struct WeatherListView: View {
     @State var viewModel: WeatherListViewModel
     @State var searchText: String = ""
-    @Environment(\.dismissSearch) var dismissSearch
     @Namespace var ns
     @State var selectedWeather: WeatherUI?
     @State var offset: CGFloat = 0
-    
+    @State var isSearchFocused: Bool = false
     var body: some View {
         NavigationStack {
             List($viewModel.weathersList, editActions: .move) { weather in
@@ -33,10 +32,13 @@ struct WeatherListView: View {
             .listStyle(.plain)
                 .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
                 .navigationTitle("Weather App")
-                .searchable(text: $searchText)
+                .searchable(text: $searchText, isPresented: $isSearchFocused, prompt: "Search the city")
                 .onSubmit(of: .search) {
                     viewModel.onSearchCompleted(cityName: searchText)
-                    dismissSearch()
+                    DispatchQueue.main.async {
+                        searchText = ""
+                        isSearchFocused = false
+                    }
                 }
         }.overlay {
             if let selectedWeather {
