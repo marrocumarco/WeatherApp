@@ -16,7 +16,7 @@ struct WeatherDetailView: View {
     var body: some View {
         VStack(spacing: 40) {
             VStack {
-                Text("My Location".uppercased())
+                Text(weather.time)
                     .font(.system(size: 13, weight: .bold))
                     .drawingGroup()
                     .matchedGeometryEffect(id: "position-\(weather.id)", in: ns)
@@ -66,6 +66,7 @@ struct DailyCardView: View {
         var body: some View {
             let sampleWeather = WeatherUI(
                 locationName: "Roma",
+                time: "18:02",
                 weatherDescription: "Pioggia",
                 weatherDetails: "Pioggia a catinelle",
                 temperature: "12°C",

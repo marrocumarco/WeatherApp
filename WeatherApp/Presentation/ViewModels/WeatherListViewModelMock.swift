@@ -12,9 +12,38 @@ struct WeatherListViewModelMock: WeatherListViewModel {
 
 
     var weatherDetail: WeatherUI?
-    var weathersList: [WeatherUI] = [WeatherUI(locationName: "Roma", weatherDescription: "Pioggia", weatherDetails: "Pioggia a catinelle", temperature: "12°C", minimumTemperature: "5°C", maximumTemperature: "20°C", iconName: "rain"),
-                                     WeatherUI(locationName: "Roma", weatherDescription: "Pioggia", weatherDetails: "Pioggia a catinelle", temperature: "12°C", minimumTemperature: "5°C", maximumTemperature: "20°C", iconName: "rain"),
-                                     WeatherUI(locationName: "Roma", weatherDescription: "Pioggia", weatherDetails: "Pioggia a catinelle", temperature: "12°C", minimumTemperature: "5°C", maximumTemperature: "20°C", iconName: "rain")]
+    var weathersList: [WeatherUI] = [
+        WeatherUI(
+            locationName: "Roma",
+            time: "13:00",
+            weatherDescription: "Pioggia",
+            weatherDetails: "Pioggia a catinelle",
+            temperature: "12°C",
+            minimumTemperature: "5°C",
+            maximumTemperature: "20°C",
+            iconName: "rain"
+        ),
+        WeatherUI(
+            locationName: "Roma",
+            time: "01:32",
+            weatherDescription: "Pioggia",
+            weatherDetails: "Pioggia a catinelle",
+            temperature: "12°C",
+            minimumTemperature: "5°C",
+            maximumTemperature: "20°C",
+            iconName: "rain"
+        ),
+        WeatherUI(
+            locationName: "Roma",
+            time: "16:44",
+            weatherDescription: "Pioggia",
+            weatherDetails: "Pioggia a catinelle",
+            temperature: "12°C",
+            minimumTemperature: "5°C",
+            maximumTemperature: "20°C",
+            iconName: "rain"
+        )
+]
 
     func onSearchCompleted(cityName: String) {
     }

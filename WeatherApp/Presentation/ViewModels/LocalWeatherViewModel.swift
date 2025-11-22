@@ -92,6 +92,7 @@ struct ForecastUI: Identifiable {
 struct WeatherUI: Identifiable, Hashable {
     var id: String { hashValue.description }
     let locationName: String
+    let time: String
     let weatherDescription: String
     let weatherDetails: String
     let temperature: String
@@ -100,8 +101,14 @@ struct WeatherUI: Identifiable, Hashable {
     let iconName: String
     
     static func from(weather: Weather) -> Self {
-        WeatherUI(
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.calendar = Calendar.current
+        formatter.timeZone = weather.timezone
+        formatter.dateFormat = "HH:mm"
+        return WeatherUI(
             locationName: weather.name,
+            time: formatter.string(from: weather.date),
             weatherDescription: weather.mainDescription.capitalized,
             weatherDetails: weather.detailedDescription.capitalized,
             temperature: "\(Int(weather.temperature.rounded(.down)))°C",

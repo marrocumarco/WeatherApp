@@ -9,6 +9,8 @@ import Foundation
 
 struct Weather {
     let id: Int
+    let date: Date
+    let timezone: TimeZone
     let name: String
     let mainDescription: String
     let detailedDescription: String

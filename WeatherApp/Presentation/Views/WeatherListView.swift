@@ -14,6 +14,7 @@ struct WeatherListView: View {
     @Namespace var ns
     @State var selectedWeather: WeatherUI?
     @State var offset: CGFloat = 0
+    
     var body: some View {
         NavigationStack {
             List($viewModel.weathersList, editActions: .move) { weather in
@@ -78,7 +79,7 @@ struct WeatherListViewCell: View {
                     .font(.system(size: 20, weight: .bold))
                     .foregroundStyle(.primary)
                 Group {
-                    Text("My Location")
+                    Text(weather.time)
                     Spacer()
                     Text("\(weather.weatherDetails)")
                 }.foregroundStyle(.secondary)
