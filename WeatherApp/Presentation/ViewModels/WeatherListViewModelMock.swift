@@ -8,6 +8,15 @@
 import Foundation
 
 struct WeatherListViewModelMock: WeatherListViewModel {
+    func moveItems(from source: IndexSet, to destination: Int) {
+        
+    }
+
+    func deleteItems(at offsets: IndexSet) {
+        
+    }
+
+  
     func viewDidAppear() {
         
     }
@@ -18,6 +27,7 @@ struct WeatherListViewModelMock: WeatherListViewModel {
     var weatherDetail: WeatherUI?
     var weathersList: [WeatherUI] = [
         WeatherUI(
+            isCurrentLocation: true,
             locationName: "Roma",
             time: "13:00",
             weatherDescription: "Pioggia",
@@ -28,6 +38,7 @@ struct WeatherListViewModelMock: WeatherListViewModel {
             iconName: "rain"
         ),
         WeatherUI(
+            isCurrentLocation: false,
             locationName: "Roma",
             time: "01:32",
             weatherDescription: "Pioggia",
@@ -38,6 +49,7 @@ struct WeatherListViewModelMock: WeatherListViewModel {
             iconName: "rain"
         ),
         WeatherUI(
+            isCurrentLocation: false,
             locationName: "Roma",
             time: "16:44",
             weatherDescription: "Pioggia",

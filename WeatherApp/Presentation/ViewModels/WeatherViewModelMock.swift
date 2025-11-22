@@ -9,6 +9,7 @@ import Foundation
 
 public class WeatherViewModelMock: WeatherViewModel {
     var weather: WeatherUI? = WeatherUI(
+        isCurrentLocation: true,
         locationName: "Escovedum",
         time: "11:01",
         weatherDescription: "Basca",

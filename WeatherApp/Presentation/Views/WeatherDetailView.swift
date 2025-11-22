@@ -65,6 +65,7 @@ struct DailyCardView: View {
         @Namespace var ns
         var body: some View {
             let sampleWeather = WeatherUI(
+                isCurrentLocation: true,
                 locationName: "Roma",
                 time: "18:02",
                 weatherDescription: "Pioggia",

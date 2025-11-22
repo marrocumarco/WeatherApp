@@ -14,4 +14,6 @@ protocol WeatherListViewModel {
     func onSearchCompleted(cityName: String)
     func onWeatherSelected(weather: WeatherUI)
     func viewDidAppear()
+    func moveItems(from source: IndexSet, to destination: Int)
+    func deleteItems(at offsets: IndexSet)
 }

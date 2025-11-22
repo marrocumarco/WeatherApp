@@ -7,73 +7,6 @@
 
 import Foundation
 
-@Observable
-final class LocalWeatherViewModel: WeatherViewModel, LocationProviderDelegate {
-    
-    internal init(weather: WeatherUI, weatherUseCase: any FetchWeatherUseCase, forecastUseCase: any FetchForecastUseCase, locationProvider: LocationProvider) {
-        self.weather = weather
-        self.weatherUseCase = weatherUseCase
-        self.forecastUseCase = forecastUseCase
-        self.locationProvider = locationProvider
-        self.locationProvider.locationProviderDelegate = self
-        fetchTodayForecastBy(weather.locationName)
-    }
-    
-    private let weatherUseCase: FetchWeatherUseCase
-    private let forecastUseCase: FetchForecastUseCase
-    
-    private let locationProvider: LocationProvider
-    
-    private(set) var weather: WeatherUI? {
-        didSet {
-            if let weather {
-                fetchTodayForecastBy(weather.locationName)
-            }
-        }
-    }
-    
-    private(set) var forecast: [ForecastUI] = []
-    
-    func fetchWeatherBy(_ location: Coordinates) {
-        Task {
-            do {
-                let weather = try await weatherUseCase.fetchWeatherFor(location)
-                self.weather = WeatherUI.from(weather: weather)
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    func fetchWeatherByCityName(_ cityName: String) {}
-    
-    func fetchTodayForecastBy(_ location: Coordinates) {
-        Task {
-            do {
-                forecast = try await forecastUseCase.fetchTodayForecastFor(location).map{ ForecastUI.from(forecast: $0) }
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    func fetchTodayForecastBy(_ cityName: String) {
-        Task {
-            do {
-                forecast = try await forecastUseCase.fetchTodayForecastFor(cityName).map{ ForecastUI.from(forecast: $0) }
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    //MARK: - LocationProviderDelegate
-    func onLocationAvailable(coordinates: Coordinates) {
-        fetchWeatherBy(coordinates)
-        fetchTodayForecastBy(coordinates)
-    }
-}
-
 struct ForecastUI: Identifiable {
     var id: String { time + temperature }
     let time: String
@@ -91,6 +24,7 @@ struct ForecastUI: Identifiable {
 
 struct WeatherUI: Identifiable, Hashable {
     var id: String { hashValue.description }
+    let isCurrentLocation: Bool
     let locationName: String
     let time: String
     let weatherDescription: String
@@ -100,15 +34,16 @@ struct WeatherUI: Identifiable, Hashable {
     let maximumTemperature: String
     let iconName: String
     
-    static func from(weather: Weather) -> Self {
+    static func from(weather: Weather, isCurrentLocation: Bool = false) -> Self {
         let formatter = DateFormatter()
         formatter.locale = Locale.current
         formatter.calendar = Calendar.current
         formatter.timeZone = weather.timezone
         formatter.dateFormat = "HH:mm"
         return WeatherUI(
+            isCurrentLocation: isCurrentLocation,
             locationName: weather.name,
-            time: formatter.string(from: weather.date),
+            time: isCurrentLocation ? "My Location" : formatter.string(from: weather.date),
             weatherDescription: weather.mainDescription.capitalized,
             weatherDetails: weather.detailedDescription.capitalized,
             temperature: "\(Int(weather.temperature.rounded(.down)))°C",

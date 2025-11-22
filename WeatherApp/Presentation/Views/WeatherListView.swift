@@ -16,30 +16,38 @@ struct WeatherListView: View {
     @State var isSearchFocused: Bool = false
     var body: some View {
         NavigationStack {
-            List($viewModel.weathersList, editActions: .move) { weather in
-                let isPresented = selectedWeather == weather.wrappedValue
-                WeatherListViewCell(weather: weather.wrappedValue, ns: ns, isSource: !isPresented)
-                    .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
-                    .onTapGesture {
-                        viewModel.onWeatherSelected(weather: weather.wrappedValue)
-                        withAnimation {
-                            selectedWeather = weather.wrappedValue
+            List {
+                ForEach($viewModel.weathersList) { weather in
+                    let isPresented = selectedWeather == weather.wrappedValue
+                    WeatherListViewCell(weather: weather.wrappedValue, ns: ns, isSource: !isPresented)
+                        .moveDisabled(weather.wrappedValue.isCurrentLocation)
+                        .deleteDisabled(weather.wrappedValue.isCurrentLocation)
+                        .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
+                        .onTapGesture {
+                            viewModel.onWeatherSelected(weather: weather.wrappedValue)
+                            withAnimation {
+                                selectedWeather = weather.wrappedValue
+                            }
                         }
-                    }
-                    .opacity(isPresented ? 0 : 1)
-                    .animation(.easeInOut, value: isPresented)
+                        .opacity(isPresented ? 0 : 1)
+                        .animation(.easeInOut, value: isPresented)
+                }.onMove { indices, newOffset in
+                    viewModel.moveItems(from: indices, to: newOffset)
+                }.onDelete { index in
+                    viewModel.deleteItems(at: index)
+                }
             }
             .listStyle(.plain)
-                .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
-                .navigationTitle("Weather App")
-                .searchable(text: $searchText, isPresented: $isSearchFocused, prompt: "Search the city")
-                .onSubmit(of: .search) {
-                    viewModel.onSearchCompleted(cityName: searchText)
-                    DispatchQueue.main.async {
-                        searchText = ""
-                        isSearchFocused = false
-                    }
+            .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
+            .navigationTitle("Weather App")
+            .searchable(text: $searchText, isPresented: $isSearchFocused, prompt: "Search the city")
+            .onSubmit(of: .search) {
+                viewModel.onSearchCompleted(cityName: searchText)
+                DispatchQueue.main.async {
+                    searchText = ""
+                    isSearchFocused = false
                 }
+            }
         }.overlay {
             if let selectedWeather {
                 WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, ns: ns)

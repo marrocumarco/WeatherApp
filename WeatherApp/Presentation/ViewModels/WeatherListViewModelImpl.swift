@@ -6,15 +6,17 @@
 //
 
 import Foundation
+import SwiftUI
 
 @Observable
 final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDelegate {
+
     private let weatherUseCase: FetchWeatherUseCase
 
     private let forecastUseCase: FetchForecastUseCase
 
     private let saveLocationsUseCase: SaveLocationsUseCase
-    
+
     private let fetchWeatherListUseCase: FetchWeathersListUseCase
 
     var weathersList: [WeatherUI] = []
@@ -25,28 +27,34 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
 
     let locationProvider: LocationProvider
 
-    internal init(weatherUseCase: any FetchWeatherUseCase,
-                  forecastUseCase: any FetchForecastUseCase,
-                  fetchWeatherListUseCase: any FetchWeathersListUseCase,
-                  saveLocationsUseCase: any SaveLocationsUseCase,
-                  locationProvider: LocationProvider) {
+    internal init(
+        weatherUseCase: any FetchWeatherUseCase,
+        forecastUseCase: any FetchForecastUseCase,
+        fetchWeatherListUseCase: any FetchWeathersListUseCase,
+        saveLocationsUseCase: any SaveLocationsUseCase,
+        locationProvider: LocationProvider
+    ) {
         self.weatherUseCase = weatherUseCase
         self.forecastUseCase = forecastUseCase
         self.fetchWeatherListUseCase = fetchWeatherListUseCase
         self.saveLocationsUseCase = saveLocationsUseCase
         self.locationProvider = locationProvider
     }
-
+    
     func onSearchCompleted(cityName: String) {
         Task {
             do {
                 let cityWeather = try await fetchWeatherByCityName(cityName)
                 weathersList.append(cityWeather)
-                try saveLocationsUseCase.save(locations: weathersList.map(\.locationName))
+                try saveLocations()
             } catch {
 
             }
         }
+    }
+    
+    fileprivate func saveLocations() throws {
+        try saveLocationsUseCase.save(locations: weathersList.filter { !$0.isCurrentLocation }.map(\.locationName))
     }
 
     private func fetchWeatherByCityName(_ cityName: String) async throws -> WeatherUI {
@@ -68,16 +76,16 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
         }
     }
 
-    private func fetchWeatherBy(_ location: Coordinates) async throws -> WeatherUI {
+    private func fetchWeatherBy(_ location: Coordinates, isCurrentLocation: Bool) async throws -> WeatherUI {
         let weather = try await weatherUseCase.fetchWeatherFor(location)
-        return WeatherUI.from(weather: weather)
+        return WeatherUI.from(weather: weather, isCurrentLocation: isCurrentLocation)
     }
-    
+
     func viewDidAppear() {
         self.locationProvider.locationProviderDelegate = self
         fetchWeatherList()
     }
-    
+
     private func fetchWeatherList() {
         Task {
             do {
@@ -90,12 +98,30 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
             }
         }
     }
-    
+
+    func moveItems(from source: IndexSet, to destination: Int) {
+        do {
+            weathersList.move(fromOffsets: source, toOffset: destination)
+            try saveLocations()
+        } catch {
+            
+        }
+    }
+
+    func deleteItems(at offsets: IndexSet) {
+        do {
+            weathersList.remove(atOffsets: offsets)
+            try saveLocations()
+        } catch {
+            
+        }
+    }
+
     // MARK: - LocationProviderDelegate
     func onLocationAvailable(coordinates: Coordinates) {
         Task {
             do {
-                let currentLocationWeather = try await fetchWeatherBy(coordinates)
+                let currentLocationWeather = try await fetchWeatherBy(coordinates, isCurrentLocation: true)
                 if weathersList.contains(currentLocationWeather) {
                     weathersList.removeAll { $0 == currentLocationWeather }
                 }
