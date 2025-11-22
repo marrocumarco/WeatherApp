@@ -64,6 +64,8 @@ struct WeatherListView: View {
 
                     }
             }
+        }.onAppear {
+            viewModel.viewDidAppear()
         }
     }
 }

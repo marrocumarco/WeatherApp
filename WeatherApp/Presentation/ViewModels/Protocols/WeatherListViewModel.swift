@@ -13,4 +13,5 @@ protocol WeatherListViewModel {
     var weatherDetail: WeatherUI? { get }
     func onSearchCompleted(cityName: String)
     func onWeatherSelected(weather: WeatherUI)
+    func viewDidAppear()
 }

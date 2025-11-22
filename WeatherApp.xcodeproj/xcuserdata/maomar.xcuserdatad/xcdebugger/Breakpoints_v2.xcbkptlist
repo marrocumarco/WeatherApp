@@ -14,10 +14,54 @@
             filePath = "WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "onSearchCompleted(cityName:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FD5DFD47-572C-47B7-9DAC-182F1C485CAF - d698b97eab892a73"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in WeatherApp.WeatherListViewModelImpl.onSearchCompleted(cityName: Swift.String) -&gt; ()"
+                  moduleName = "WeatherApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43">
+               </Location>
+               <Location
+                  uuid = "FD5DFD47-572C-47B7-9DAC-182F1C485CAF - 1db29cb034d2e688"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 () async -&gt; () in WeatherApp.WeatherListViewModelImpl.onSearchCompleted(cityName: Swift.String) -&gt; ()"
+                  moduleName = "WeatherApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43">
+               </Location>
+               <Location
+                  uuid = "FD5DFD47-572C-47B7-9DAC-182F1C485CAF - 670d750db5c73074"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 () async -&gt; () in WeatherApp.WeatherListViewModelImpl.onSearchCompleted(cityName: Swift.String) -&gt; ()"
+                  moduleName = "WeatherApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -39,17 +83,105 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "185CBFAC-73D9-4468-A357-DA6DF96274F9"
+            uuid = "E1F7BBCD-4892-47C0-8B9B-C5D349EFB3E9"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherApp/Data/DataSources/Networking/Model/Weather/WeatherQueryResponse.swift"
+            filePath = "WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "toWeather()"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "viewDidAppear()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A212E7A8-25FC-441A-A330-467E9F63CE57"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "fetchWeatherList()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A212E7A8-25FC-441A-A330-467E9F63CE57 - 71ca6e8005a378fe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in WeatherApp.WeatherListViewModelImpl.fetchWeatherList() -&gt; ()"
+                  moduleName = "WeatherApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84">
+               </Location>
+               <Location
+                  uuid = "A212E7A8-25FC-441A-A330-467E9F63CE57 - d6c20cd27588e5e1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 () async -&gt; () in WeatherApp.WeatherListViewModelImpl.fetchWeatherList() -&gt; ()"
+                  moduleName = "WeatherApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84">
+               </Location>
+               <Location
+                  uuid = "A212E7A8-25FC-441A-A330-467E9F63CE57 - 8ae17a2a143724f8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 () async -&gt; () in WeatherApp.WeatherListViewModelImpl.fetchWeatherList() -&gt; ()"
+                  moduleName = "WeatherApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84">
+               </Location>
+               <Location
+                  uuid = "A212E7A8-25FC-441A-A330-467E9F63CE57 - c692fde71b72caf7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 () async -&gt; () in WeatherApp.WeatherListViewModelImpl.fetchWeatherList() -&gt; ()"
+                  moduleName = "WeatherApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84">
+               </Location>
+               <Location
+                  uuid = "A212E7A8-25FC-441A-A330-467E9F63CE57 - 57ba07523c8f2482"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (WeatherApp.Weather) -&gt; WeatherApp.WeatherUI in closure #1 () async -&gt; () in WeatherApp.WeatherListViewModelImpl.fetchWeatherList() -&gt; ()"
+                  moduleName = "WeatherApp.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maomar/Developer/marco/WeatherApp/WeatherApp/Presentation/ViewModels/WeatherListViewModelImpl.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

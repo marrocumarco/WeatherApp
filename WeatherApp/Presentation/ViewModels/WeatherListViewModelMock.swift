@@ -8,6 +8,10 @@
 import Foundation
 
 struct WeatherListViewModelMock: WeatherListViewModel {
+    func viewDidAppear() {
+        
+    }
+
     var forecastList: [ForecastUI] = []
 
 
