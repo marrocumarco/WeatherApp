@@ -19,32 +19,26 @@ struct WeatherDetailView: View {
                 Text(weather.time)
                     .font(.system(size: 13, weight: .bold))
                     .drawingGroup()
-                    .matchedGeometryEffect(id: "position-\(weather.id)", in: ns)
                 Text(weather.locationName)
                     .font(.system(size: 30))
                     .foregroundStyle(.primary)
-                    .matchedGeometryEffect(id: "locationName-\(weather.id)", in: ns)
                 Text(weather.temperature)
                     .font(.system(size: 80, weight: .light))
-                    .matchedGeometryEffect(id: "temperature-\(weather.id)", in: ns)
                 Text("\(weather.weatherDetails)")
                     .foregroundStyle(.secondary)
-                    .matchedGeometryEffect(id: "weatherDetails-\(weather.id)", in: ns)
                 HStack {
                     Text("\(weather.minimumTemperature)")
-                        .matchedGeometryEffect(id: "minimumTemperature-\(weather.id)", in: ns)
                     Text("\(weather.maximumTemperature)")
-                        .matchedGeometryEffect(id: "maximumTemperature-\(weather.id)", in: ns)
                 }.font(.system(size: 12, weight: .medium))
             }
             DailyCardView(forecastList: forecastList)
             Spacer()
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
-            .background(.ultraThinMaterial)
-            .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns)
-            .cornerRadius(12)
-            .animation(.easeInOut, value: true)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
+        .background(.ultraThinMaterial)
+        .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns)
+        .cornerRadius(12)
     }
 }
 

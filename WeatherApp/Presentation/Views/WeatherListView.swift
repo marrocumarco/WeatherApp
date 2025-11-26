@@ -14,41 +14,47 @@ struct WeatherListView: View {
     @State var selectedWeather: WeatherUI?
     @State var offset: CGFloat = 0
     @State var isSearchFocused: Bool = false
+    
+    let animation = Animation.spring()
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach($viewModel.weathersList) { weather in
-                    let isPresented = selectedWeather == weather.wrappedValue
-                    WeatherListViewCell(weather: weather.wrappedValue, ns: ns, isSource: !isPresented)
-                        .moveDisabled(weather.wrappedValue.isCurrentLocation)
-                        .deleteDisabled(weather.wrappedValue.isCurrentLocation)
-                        .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
-                        .onTapGesture {
-                            viewModel.onWeatherSelected(weather: weather.wrappedValue)
-                            withAnimation {
-                                selectedWeather = weather.wrappedValue
+        ZStack {
+            NavigationStack {
+                List {
+                    ForEach($viewModel.weathersList) { weather in
+                        let isPresented = selectedWeather == weather.wrappedValue
+                        WeatherListViewCell(weather: weather.wrappedValue, ns: ns, isSource: !isPresented)
+                            .moveDisabled(weather.wrappedValue.isCurrentLocation)
+                            .deleteDisabled(weather.wrappedValue.isCurrentLocation)
+                            .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
+                            .onTapGesture {
+                                viewModel.onWeatherSelected(weather: weather.wrappedValue)
+                                withAnimation(animation) {
+                                    selectedWeather = weather.wrappedValue
+                                }
                             }
-                        }
-                        .opacity(isPresented ? 0 : 1)
-                        .animation(.easeInOut, value: isPresented)
-                }.onMove { indices, newOffset in
-                    viewModel.moveItems(from: indices, to: newOffset)
-                }.onDelete { index in
-                    viewModel.deleteItems(at: index)
+                        //                        .opacity(isPresented ? 0 : 1)
+                        //                        .animation(.easeInOut, value: isPresented)
+                    }.onMove { indices, newOffset in
+                        viewModel.moveItems(from: indices, to: newOffset)
+                    }.onDelete { index in
+                        viewModel.deleteItems(at: index)
+                    }
+                }
+                .listStyle(.plain)
+                .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
+                .navigationTitle("Weather App")
+                .searchable(text: $searchText, isPresented: $isSearchFocused, prompt: "Search the city")
+                .searchSuggestions {
+                    
+                }
+                .onSubmit(of: .search) {
+                    viewModel.onSearchCompleted(cityName: searchText)
+                    DispatchQueue.main.async {
+                        searchText = ""
+                        isSearchFocused = false
+                    }
                 }
             }
-            .listStyle(.plain)
-            .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
-            .navigationTitle("Weather App")
-            .searchable(text: $searchText, isPresented: $isSearchFocused, prompt: "Search the city")
-            .onSubmit(of: .search) {
-                viewModel.onSearchCompleted(cityName: searchText)
-                DispatchQueue.main.async {
-                    searchText = ""
-                    isSearchFocused = false
-                }
-            }
-        }.overlay {
             if let selectedWeather {
                 WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, ns: ns)
                     .offset(y: offset)
@@ -57,20 +63,17 @@ struct WeatherListView: View {
                             offset = value.translation.height
                         }.onEnded { value in
                             if value.translation.height > 100 {
-                                withAnimation {
+                                withAnimation(animation) {
                                     self.selectedWeather = nil
                                 }
                                 offset = 0
                             } else {
-                                withAnimation {
+                                withAnimation(animation) {
                                     offset = 0
                                 }
                             }
                         }
                     )
-                    .onTapGesture {
-
-                    }
             }
         }.onAppear {
             viewModel.viewDidAppear()
@@ -113,4 +116,8 @@ struct WeatherListViewCell: View {
         .cornerRadius(12)
         .listRowSeparator(.hidden)
     }
+}
+
+#Preview {
+    WeatherListView(viewModel: WeatherListViewModelMock())
 }

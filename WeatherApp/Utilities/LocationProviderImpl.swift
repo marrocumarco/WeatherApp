@@ -14,14 +14,17 @@ protocol LocationProviderDelegate: AnyObject {
 
 final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerDelegate {
    
-    override init() {
-        super.init()
+    weak var locationProviderDelegate: LocationProviderDelegate? {
+        didSet {
+            configureLocationManager()
+        }
+    }
+    
+    private func configureLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
     }
-    
-    weak var locationProviderDelegate: LocationProviderDelegate?
     
     let locationManager = CLLocationManager()
         
