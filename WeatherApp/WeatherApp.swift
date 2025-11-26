@@ -31,7 +31,8 @@ struct WeatherApp: App {
     private let forecastUseCase: FetchForecastUseCaseImpl
     private let fetchWeatherListUseCase: FetchWeathersListUseCaseImpl
     private let saveLocationsUseCase: any SaveLocationsUseCase
-    
+    private let suggestionProvider: SuggestionsProvider = SuggestionsProviderImpl()
+
     var body: some Scene {
         WindowGroup {
             WeatherListView(
@@ -40,7 +41,8 @@ struct WeatherApp: App {
                     forecastUseCase: forecastUseCase,
                     fetchWeatherListUseCase: fetchWeatherListUseCase,
                     saveLocationsUseCase: saveLocationsUseCase,
-                    locationProvider: locationProvider
+                    locationProvider: locationProvider,
+                    suggestionsProvider: suggestionProvider
                 )
             )
         }

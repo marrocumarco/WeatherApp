@@ -1,5 +1,5 @@
 //
-//  SuggestionsProvider.swift
+//  SuggestionsProviderTests.swift
 //  WeatherAppTests
 //
 //  Created by maomar on 26/11/25.
@@ -20,9 +20,9 @@ class SuggestionsProviderDelegateMock: SuggestionsProviderDelegate {
 }
 
 @MainActor
-struct SuggestionsProviderTest {
+struct SuggestionsProviderTests {
 
-    let suggestionsProvider = SuggestionsProvider()
+    let suggestionsProvider = SuggestionsProviderImpl()
     let delegate = SuggestionsProviderDelegateMock()
     
     @Test func getSuggestions() async throws {

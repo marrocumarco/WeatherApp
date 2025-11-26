@@ -45,7 +45,29 @@ struct WeatherListView: View {
                 .navigationTitle("Weather App")
                 .searchable(text: $searchText, isPresented: $isSearchFocused, prompt: "Search the city")
                 .searchSuggestions {
-                    
+                    if viewModel.locationSuggestions?.isEmpty ?? false {
+                        VStack {
+                            Spacer()
+                            ContentUnavailableView("Location not found", systemImage: "magnifyingglass.circle")
+                        }
+                    } else {
+                        ForEach(viewModel.locationSuggestions ?? [], id: \.self) { location in
+                            Text(location)
+                                .searchCompletion(location)
+                                .foregroundStyle(.primary)
+                        }
+                    }
+                }
+                .onChange(of: searchText) {
+                    if searchText.isEmpty {
+                        viewModel.locationSuggestions = nil
+                    } else {
+                        viewModel.onSearchTextChanged(searchText: searchText)
+                    }
+                }.onChange(of: isSearchFocused) {
+                    if !isSearchFocused {
+                        searchText = ""
+                    }
                 }
                 .onSubmit(of: .search) {
                     viewModel.onSearchCompleted(cityName: searchText)

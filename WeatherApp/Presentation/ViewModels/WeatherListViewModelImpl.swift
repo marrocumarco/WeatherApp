@@ -21,27 +21,39 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
 
     var weathersList: [WeatherUI] = []
 
+    var locationSuggestions: [String]?
+
     private(set) var weatherDetail: WeatherUI?
 
     private(set) var forecastList: [ForecastUI] = []
 
-    let locationProvider: LocationProvider
+    private let locationProvider: LocationProvider
+
+    private var suggestionsProvider: SuggestionsProvider
 
     internal init(
         weatherUseCase: any FetchWeatherUseCase,
         forecastUseCase: any FetchForecastUseCase,
         fetchWeatherListUseCase: any FetchWeathersListUseCase,
         saveLocationsUseCase: any SaveLocationsUseCase,
-        locationProvider: LocationProvider
+        locationProvider: LocationProvider,
+        suggestionsProvider: SuggestionsProvider
     ) {
         self.weatherUseCase = weatherUseCase
         self.forecastUseCase = forecastUseCase
         self.fetchWeatherListUseCase = fetchWeatherListUseCase
         self.saveLocationsUseCase = saveLocationsUseCase
         self.locationProvider = locationProvider
+        self.suggestionsProvider = suggestionsProvider
+        self.suggestionsProvider.delegate = self
     }
-    
+
+    func onSearchTextChanged(searchText: String) {
+        suggestionsProvider.getSuggestions(searchString: searchText)
+    }
+
     func onSearchCompleted(cityName: String) {
+        locationSuggestions = []
         Task {
             do {
                 let cityWeather = try await fetchWeatherByCityName(cityName)
@@ -130,5 +142,15 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
                 // TODO: - show error on UI
             }
         }
+    }
+}
+
+extension WeatherListViewModelImpl: SuggestionsProviderDelegate {
+    func onSuggestionsReceived(result: [String]) {
+        locationSuggestions = result
+    }
+    
+    func onError(error: any Error) {
+
     }
 }

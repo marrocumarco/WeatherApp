@@ -8,6 +8,12 @@
 import Foundation
 
 struct WeatherListViewModelMock: WeatherListViewModel {
+    var locationSuggestions: [String]?
+
+    func onSearchTextChanged(searchText: String) {
+        
+    }
+    
     func moveItems(from source: IndexSet, to destination: Int) {
         
     }
