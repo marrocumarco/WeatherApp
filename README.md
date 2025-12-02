@@ -51,28 +51,29 @@ Follow these steps to set up the project locally without build errors.
 
 ### Installation
 
-1.  **Clone the repository:**
+1. **Clone the repository:**
+
     ```bash
-    git clone [https://github.com/marrocumarco/WeatherApp.git](https://github.com/marrocumarco/WeatherApp.git)
+    git clone https://github.com/marrocumarco/WeatherApp.git
     ```
 
-2.  **Configuration (Important):**
+2. **Configuration (Important):**
     The project uses an `.xcconfig` file to manage secrets.
     * Locate the `Config.xcconfig.example` file in the Supporting Files folder.
     * Create a `Config.xcconfig` file.
     * Open the new file, copy the content from the example and replace `INSERT_YOUR_API_KEY_HERE` with your actual OpenWeatherMap API Key.
-    
+
     > **Note:** The `Config.xcconfig` file is ignored by git to protect your API Key.
 
-3.  **Open the project:**
+3. **Open the project:**
     * Double-click on `WeatherApp.xcodeproj`.
-4.  **Set Signing & Team (Required)**
+4. **Set Signing & Team (Required)**
     * Click on the WeatherApp project icon in the top-left Project Navigator.
 
     * Select the WeatherApp target from the main list.
 
     * Go to the "Signing & Capabilities" tab.
 
-In the Team dropdown menu, select your own Personal Team (or add your Apple ID if prompted).
+    * In the Team dropdown menu, select your own Personal Team (or add your Apple ID if prompted).
 4.  **Run the App:**
     Select a simulator and press `Cmd + R`.
