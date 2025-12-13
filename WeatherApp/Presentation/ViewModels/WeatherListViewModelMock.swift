@@ -5,7 +5,7 @@
 //  Created by maomar on 18/11/25.
 //
 
-import Foundation
+import SwiftUI
 
 struct WeatherListViewModelMock: WeatherListViewModel {
     var locationSuggestions: [String]?
@@ -41,7 +41,8 @@ struct WeatherListViewModelMock: WeatherListViewModel {
             temperature: "12°C",
             minimumTemperature: "5°C",
             maximumTemperature: "20°C",
-            iconName: "rain"
+            iconName: "rain",
+            gradientColors: Gradient(stops: [])
         ),
         WeatherUI(
             isCurrentLocation: false,
@@ -52,7 +53,7 @@ struct WeatherListViewModelMock: WeatherListViewModel {
             temperature: "12°C",
             minimumTemperature: "5°C",
             maximumTemperature: "20°C",
-            iconName: "rain"
+            iconName: "rain", gradientColors: Gradient(stops: [])
         ),
         WeatherUI(
             isCurrentLocation: false,
@@ -63,7 +64,7 @@ struct WeatherListViewModelMock: WeatherListViewModel {
             temperature: "12°C",
             minimumTemperature: "5°C",
             maximumTemperature: "20°C",
-            iconName: "rain"
+            iconName: "rain", gradientColors: Gradient(stops: [])
         )
 ]
 

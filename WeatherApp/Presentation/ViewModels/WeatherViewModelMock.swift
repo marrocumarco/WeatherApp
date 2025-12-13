@@ -5,7 +5,7 @@
 //  Created by marrocumarco on 12/11/2025.
 //
 
-import Foundation
+import SwiftUI
 
 public class WeatherViewModelMock: WeatherViewModel {
     var weather: WeatherUI? = WeatherUI(
@@ -17,7 +17,8 @@ public class WeatherViewModelMock: WeatherViewModel {
         temperature: "33°",
         minimumTemperature: "15°",
         maximumTemperature: "3°",
-        iconName: "cloud"
+        iconName: "cloud",
+        gradientColors: Gradient(stops: [])
     )
 
     var forecast: [ForecastUI] = [ForecastUI(time: "14", temperature: "23,5°", iconName: "sun"),

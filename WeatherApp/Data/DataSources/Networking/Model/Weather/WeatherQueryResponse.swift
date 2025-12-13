@@ -17,6 +17,7 @@ struct WeatherQueryResponse: Decodable {
     func toWeather() -> Weather {
         Weather(
             id: weather.first?.id ?? 0,
+            weatherClass: WeatherClassProvider.weatherClass(for: weather.first?.id ?? 0),
             date: Date(timeIntervalSince1970: TimeInterval(dt)),
             timezone: TimeZone(secondsFromGMT: timezone) ?? TimeZone.current,
             name: name,

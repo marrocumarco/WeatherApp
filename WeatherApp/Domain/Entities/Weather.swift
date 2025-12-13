@@ -9,6 +9,7 @@ import Foundation
 
 struct Weather {
     let id: Int
+    let weatherClass: WeatherClass
     let date: Date
     let timezone: TimeZone
     let name: String
@@ -19,4 +20,16 @@ struct Weather {
     let maximumTemperature: Double
     let pressure: Int
     let humidity: Int
+}
+
+enum WeatherClass {
+    case bolt
+    case drizzle
+    case sunRain
+    case snow
+    case rain
+    case fog
+    case sun
+    case cloudSun
+    case cloud
 }

@@ -67,7 +67,8 @@ struct DailyCardView: View {
                 temperature: "12°C",
                 minimumTemperature: "5°C",
                 maximumTemperature: "20°C",
-                iconName: "cloud.rain"
+                iconName: "cloud.rain",
+                gradientColors: Gradient(stops: [])
             )
             let sampleForecast: [ForecastUI] = [
                 ForecastUI(time: "14", temperature: "23.5°", iconName: "sun.max"),

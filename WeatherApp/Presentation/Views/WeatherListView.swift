@@ -14,7 +14,7 @@ struct WeatherListView: View {
     @State var selectedWeather: WeatherUI?
     @State var offset: CGFloat = 0
     @State var isSearchFocused: Bool = false
-    
+    let color = LinearGradient(colors: [.blue, .blue.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing)
     let animation = Animation.spring()
     var body: some View {
         ZStack {
@@ -23,59 +23,62 @@ struct WeatherListView: View {
                     ForEach($viewModel.weathersList) { weather in
                         let isPresented = selectedWeather == weather.wrappedValue
                         WeatherListViewCell(weather: weather.wrappedValue, ns: ns, isSource: !isPresented)
-                            .moveDisabled(weather.wrappedValue.isCurrentLocation)
+
+                            .moveDisabled(
+                                weather.wrappedValue.isCurrentLocation
+                            )
                             .deleteDisabled(weather.wrappedValue.isCurrentLocation)
                             .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
+                            .listRowBackground(Color.clear)
                             .onTapGesture {
                                 viewModel.onWeatherSelected(weather: weather.wrappedValue)
                                 withAnimation(animation) {
                                     selectedWeather = weather.wrappedValue
                                 }
                             }
-                        //                        .opacity(isPresented ? 0 : 1)
-                        //                        .animation(.easeInOut, value: isPresented)
-                    }.onMove { indices, newOffset in
+                    }
+                    .onMove { indices, newOffset in
                         viewModel.moveItems(from: indices, to: newOffset)
                     }.onDelete { index in
                         viewModel.deleteItems(at: index)
                     }
-                }
-                .listStyle(.plain)
-                .contentShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 20)))
-                .navigationTitle("Weather App")
-                .searchable(text: $searchText, isPresented: $isSearchFocused, prompt: "Search the city")
-                .searchSuggestions {
-                    if viewModel.locationSuggestions?.isEmpty ?? false {
-                        VStack {
-                            Spacer()
-                            ContentUnavailableView("Location not found", systemImage: "magnifyingglass.circle")
+                }.background(color)
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .navigationTitle("Weather App")
+                    .searchable(text: $searchText, isPresented: $isSearchFocused, prompt: "Search the city")
+                    .searchSuggestions {
+                        if viewModel.locationSuggestions?.isEmpty ?? false {
+                            VStack {
+                                Spacer()
+                                ContentUnavailableView("Location not found", systemImage: "magnifyingglass.circle")
+                            }
+                        } else {
+                            ForEach(viewModel.locationSuggestions ?? [], id: \.self) { location in
+                                Text(location)
+                                    .searchCompletion(location)
+                                    .foregroundStyle(.primary)
+                            }
                         }
-                    } else {
-                        ForEach(viewModel.locationSuggestions ?? [], id: \.self) { location in
-                            Text(location)
-                                .searchCompletion(location)
-                                .foregroundStyle(.primary)
+                    }
+                    .onChange(of: searchText) {
+                        if searchText.isEmpty {
+                            viewModel.locationSuggestions = nil
+                        } else {
+                            viewModel.onSearchTextChanged(searchText: searchText)
+                        }
+                    }.onChange(of: isSearchFocused) {
+                        if !isSearchFocused {
+                            searchText = ""
                         }
                     }
-                }
-                .onChange(of: searchText) {
-                    if searchText.isEmpty {
-                        viewModel.locationSuggestions = nil
-                    } else {
-                        viewModel.onSearchTextChanged(searchText: searchText)
+                    .onSubmit(of: .search) {
+                        viewModel.onSearchCompleted(cityName: searchText)
+                        DispatchQueue.main.async {
+                            searchText = ""
+                            isSearchFocused = false
+                        }
                     }
-                }.onChange(of: isSearchFocused) {
-                    if !isSearchFocused {
-                        searchText = ""
-                    }
-                }
-                .onSubmit(of: .search) {
-                    viewModel.onSearchCompleted(cityName: searchText)
-                    DispatchQueue.main.async {
-                        searchText = ""
-                        isSearchFocused = false
-                    }
-                }
             }
             if let selectedWeather {
                 WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, ns: ns)
@@ -97,7 +100,8 @@ struct WeatherListView: View {
                         }
                     )
             }
-        }.onAppear {
+        }
+        .onAppear {
             viewModel.viewDidAppear()
         }
     }
@@ -124,17 +128,19 @@ struct WeatherListViewCell: View {
             .font(.system(size: 14, weight: .medium))
             Spacer()
             VStack(alignment: .trailing) {
-                Text(weather.temperature).font(.system(size: 40, weight: .medium))
+                Text(weather.temperature)
+                    .font(.system(size: 40, weight: .medium))
                 Spacer()
                 HStack {
                     Text("\(weather.minimumTemperature)")
                     Text("\(weather.maximumTemperature)")
-                }.font(.system(size: 12, weight: .medium))
+                }
+                .font(.system(size: 12, weight: .medium))
             }.foregroundStyle(.primary)
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(.ultraThinMaterial)
+        .background(LinearGradient(gradient: weather.gradientColors, startPoint: .top, endPoint: .bottom))
         .cornerRadius(12)
         .listRowSeparator(.hidden)
     }

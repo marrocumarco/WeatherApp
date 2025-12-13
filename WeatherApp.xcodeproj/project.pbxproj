@@ -34,6 +34,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				"Supporting Files/Config.xcconfig.example",
 			);
 			target = 108CB0CD2E8EA2F000F9BB76 /* WeatherApp */;
 		};
