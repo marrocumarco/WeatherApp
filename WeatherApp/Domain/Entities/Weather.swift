@@ -20,6 +20,9 @@ struct Weather {
     let maximumTemperature: Double
     let pressure: Int
     let humidity: Int
+    // Nuovi campi per gestione alba/tramonto
+    let sunrise: Date
+    let sunset: Date
 }
 
 enum WeatherClass {
@@ -33,3 +36,4 @@ enum WeatherClass {
     case cloudSun
     case cloud
 }
+

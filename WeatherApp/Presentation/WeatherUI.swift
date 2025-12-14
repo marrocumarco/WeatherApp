@@ -18,7 +18,10 @@ struct WeatherUI: Identifiable, Hashable {
     let minimumTemperature: String
     let maximumTemperature: String
     let iconName: String
-    let gradientColors: Gradient
+    let lightGradientColors: Gradient
+    let darkGradientColors: Gradient
+    let sunrise: String
+    let sunset: String
 
     static func from(weather: Weather, isCurrentLocation: Bool = false) -> Self {
         let formatter = DateFormatter()
@@ -36,7 +39,22 @@ struct WeatherUI: Identifiable, Hashable {
             minimumTemperature: "\(Int(weather.minimumTemperature.rounded(.down)))°",
             maximumTemperature: "\(Int(weather.maximumTemperature.rounded(.down)))°",
             iconName: IconMapper.iconName(for: weather.weatherClass),
-            gradientColors: GradientMapper.gradient(for: weather.weatherClass)
+            lightGradientColors: GradientMapper.gradient(
+                for: weather.weatherClass,
+                colorScheme: .light,
+                date: weather.date,
+                sunrise: weather.sunrise,
+                sunset: weather.sunset
+            ),
+            darkGradientColors: GradientMapper.gradient(
+                for: weather.weatherClass,
+                colorScheme: .dark,
+                date: weather.date,
+                sunrise: weather.sunrise,
+                sunset: weather.sunset
+            ),
+            sunrise: formatter.string(from: weather.sunrise),
+            sunset: formatter.string(from: weather.sunset)
         )
     }
 }

@@ -18,10 +18,14 @@ public class WeatherViewModelMock: WeatherViewModel {
         minimumTemperature: "15°",
         maximumTemperature: "3°",
         iconName: "cloud",
-        gradientColors: Gradient(stops: [])
+        lightGradientColors: Gradient(stops: []),
+        darkGradientColors: Gradient(stops: []),
+        sunrise: "06:00",
+        sunset: "18:00"
     )
 
     var forecast: [ForecastUI] = [ForecastUI(time: "14", temperature: "23,5°", iconName: "sun"),
                                   ForecastUI(time: "15", temperature: "22,5°", iconName: "cloud"),
                                   ForecastUI(time: "16", temperature: "21,5°", iconName: "rain")]
 }
+

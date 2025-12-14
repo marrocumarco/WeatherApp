@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WeatherListView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var viewModel: WeatherListViewModel
     @State var searchText: String = ""
     @Namespace var ns
@@ -112,6 +113,7 @@ struct WeatherListViewCell: View {
     var weather: WeatherUI
     var ns: Namespace.ID
     var isSource: Bool
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         HStack {
@@ -140,7 +142,13 @@ struct WeatherListViewCell: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(LinearGradient(gradient: weather.gradientColors, startPoint: .top, endPoint: .bottom))
+        .background(
+            LinearGradient(
+                gradient: colorScheme == .light ? weather.lightGradientColors : weather.darkGradientColors,
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
         .cornerRadius(12)
         .listRowSeparator(.hidden)
     }
@@ -149,3 +157,4 @@ struct WeatherListViewCell: View {
 #Preview {
     WeatherListView(viewModel: WeatherListViewModelMock())
 }
+

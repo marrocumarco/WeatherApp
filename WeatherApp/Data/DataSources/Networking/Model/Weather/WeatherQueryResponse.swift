@@ -13,7 +13,8 @@ struct WeatherQueryResponse: Decodable {
     let timezone: Int
     let weather: [WeatherApi]
     let main: MainInfoApi
-    
+    let sys: SystemInfoApi
+
     func toWeather() -> Weather {
         Weather(
             id: weather.first?.id ?? 0,
@@ -27,7 +28,9 @@ struct WeatherQueryResponse: Decodable {
             minimumTemperature: main.minimumTemperature,
             maximumTemperature: main.maximumTemperature,
             pressure: main.pressure,
-            humidity: main.humidity
+            humidity: main.humidity,
+            sunrise: Date(timeIntervalSince1970: TimeInterval(sys.sunrise)),
+            sunset: Date(timeIntervalSince1970: TimeInterval(sys.sunset))
         )
     }
 }
