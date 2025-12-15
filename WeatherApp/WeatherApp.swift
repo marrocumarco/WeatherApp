@@ -13,8 +13,7 @@ struct WeatherApp: App {
     
     init() {
         weatherRepository = WeatherRepositoryImpl(
-            apiClient: try! ApiClientImpl(),
-            imageLoader: ImageLoaderImpl()
+            apiClient: try! ApiClientImpl()
         )
         weatherUseCase = FetchWeatherUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
         forecastUseCase = FetchForecastUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
