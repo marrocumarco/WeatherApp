@@ -8,7 +8,7 @@
 import Foundation
 
 struct WeatherClassProvider {
-    static func weatherClass(for code: Int) -> WeatherClass {
+    static func weatherClass(for code: Int) throws -> WeatherClass {
         switch code {
         case 200...299:
             return .bolt
@@ -31,7 +31,11 @@ struct WeatherClassProvider {
         case 802...804:
             return .cloud
         default:
-            return .cloud
+            throw WeatherClassProviderError.invalidCode
         }
+    }
+
+    enum WeatherClassProviderError: Error {
+        case invalidCode
     }
 }

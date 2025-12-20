@@ -10,9 +10,9 @@ import Foundation
 struct ForecastQueryResponse: Decodable {
     let list: [ForecastApi]
     
-    func toForecast() -> [Forecast] {
-        list.map {
-            Forecast(date: Date(timeIntervalSince1970: TimeInterval($0.dt)), weatherClass: WeatherClassProvider.weatherClass(for: $0.weather.first?.id ?? 0), temperature: $0.main.temp)
+    func toForecast() throws -> [Forecast] {
+        try list.map {
+            Forecast(date: Date(timeIntervalSince1970: TimeInterval($0.dt)), weatherClass: try WeatherClassProvider.weatherClass(for: $0.weather.first?.id ?? 0), temperature: $0.main.temp)
         }
     }
 }

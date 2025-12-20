@@ -8,13 +8,15 @@
 import MapKit
 
 class SuggestionsProviderImpl: NSObject {
-    let completer = MKLocalSearchCompleter()
+    private(set) var completer: SearchCompleter
     weak var delegate: SuggestionsProviderDelegate?
-    override init () {
+    init(completer: SearchCompleter) {
+        var newCompleter = completer
+        newCompleter.resultTypes = .address
+        newCompleter.addressFilter = MKAddressFilter(including: .locality)
+        self.completer = newCompleter
         super.init()
-        completer.resultTypes = .address
-        completer.addressFilter = MKAddressFilter(including: .locality)
-        completer.delegate = self
+        self.completer.delegate = self
     }
 }
 
@@ -35,9 +37,4 @@ extension SuggestionsProviderImpl: SuggestionsProvider {
     func getSuggestions(searchString: String) {
         completer.queryFragment = searchString
     }
-}
-
-protocol SuggestionsProviderDelegate: AnyObject {
-    func onSuggestionsReceived(result: [String])
-    func onError(error: Error)
 }
