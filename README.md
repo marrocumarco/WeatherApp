@@ -36,14 +36,19 @@ I am currently working on polishing the UI and adding more advanced features. He
 * [ ] **Error Handling:** Improve user feedback when the network is unavailable.
 * [ ] **UI Polish:** Add custom icons and improve the overall design.
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Architecture
 
+* **Architecture:** Clean Architecture (MVVM + Use Cases + Repository Pattern)
+* **Concurrency:** Swift Concurrency (async/await)
 * **Language:** [Swift](https://developer.apple.com/swift/)
 * **UI Framework:** SwiftUI
+* **Dependency Injection:** Manual DI
 * **Networking:** URLSession
 * **Persistence:** UserDefaults
-* **Services:** CoreLocation
+* **Services:** CoreLocation, MapKit
+* **Testing:** XCTest & Swift Testing
 * **Configuration:** `.xcconfig` files for environment variables
+
 
 ## 🚀 Getting Started
 
