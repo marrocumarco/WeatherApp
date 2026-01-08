@@ -7,6 +7,14 @@
 
 import Foundation
 
+protocol NetworkSession {
+    func data(
+        for request: URLRequest
+    ) async throws -> (Data, URLResponse)
+}
+
+extension URLSession: NetworkSession {}
+
 struct ApiClientImpl: ApiClient {
 
 
@@ -16,8 +24,9 @@ struct ApiClientImpl: ApiClient {
     private let apiKey: String
     private let weatherEndPoint = "weather"
     private let forecastEndPoint = "forecast"
-    
-    init() throws {
+    private let networkSession: NetworkSession
+
+    init(networkSession: NetworkSession) throws {
         if let url = Bundle.main.url(forResource: "Info", withExtension: "plist"),
             let dict = NSDictionary(contentsOf: url) as? [String: Any],
             let urlString = dict[baseUrlKey] as? String,
@@ -29,6 +38,7 @@ struct ApiClientImpl: ApiClient {
         } else {
             throw ApiClientImplError.cannotInitializeClient
         }
+        self.networkSession = networkSession
     }
 
     func fetchForecastBy(_ coordinates: Coordinates, numberOfForecasts: Int) async throws -> [Forecast] {
@@ -48,8 +58,8 @@ struct ApiClientImpl: ApiClient {
         
         let request = URLRequest(url: url.appending(queryItems: queryItems))
         
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
+        let (data, response) = try await networkSession.data(for: request)
+
         // TODO check response for network errors
         
         return try JSONDecoder().decode(ForecastQueryResponse.self, from: data).toForecast()
@@ -74,7 +84,7 @@ struct ApiClientImpl: ApiClient {
 
         let request = URLRequest(url: url.appending(queryItems: queryItems))
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await networkSession.data(for: request)
 
         // TODO check response for network errors
 

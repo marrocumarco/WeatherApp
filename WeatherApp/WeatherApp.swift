@@ -14,7 +14,7 @@ struct WeatherApp: App {
     
     init() {
         weatherRepository = WeatherRepositoryImpl(
-            apiClient: try! ApiClientImpl()
+            apiClient: try! ApiClientImpl(networkSession: URLSession.shared)
         )
         weatherUseCase = FetchWeatherUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
         forecastUseCase = FetchForecastUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)

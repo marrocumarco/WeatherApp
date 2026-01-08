@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct GradientMapper {
-    // Backward compatibility: versione base solo per WeatherClass
     static func gradient(for weatherClass: WeatherClass) -> Gradient {
         switch weatherClass {
         case .bolt:
@@ -59,13 +58,11 @@ struct GradientMapper {
         }
     }
 
-    // Nuova API: calcolo day/night da date + sunrise/sunset e applico correzioni per colorScheme
     static func gradient(for weatherClass: WeatherClass, colorScheme: ColorScheme, date: Date, sunrise: Date, sunset: Date) -> Gradient {
         let isNight = date < sunrise || date > sunset
         return gradient(for: weatherClass, colorScheme: colorScheme, isNight: isNight)
     }
 
-    // Overload utile se "notte" è già calcolato altrove
     static func gradient(for weatherClass: WeatherClass, colorScheme: ColorScheme, isNight: Bool) -> Gradient {
         if isNight {
             return nightPalette(for: weatherClass, colorScheme: colorScheme)
@@ -77,7 +74,6 @@ struct GradientMapper {
     private static func dayPalette(for weatherClass: WeatherClass, colorScheme: ColorScheme) -> Gradient {
         switch weatherClass {
         case .bolt:
-            // di giorno: più blu in light, più indigo in dark
             return Gradient(colors: colorScheme == .dark ? [.indigo, .black.opacity(0.85)] : [.indigo, .blue.opacity(0.6)])
         case .drizzle:
             return Gradient(colors: colorScheme == .dark ? [.gray.opacity(0.6), .indigo.opacity(0.5)] : [.gray.opacity(0.5), .blue.opacity(0.4)])
@@ -99,7 +95,6 @@ struct GradientMapper {
     }
 
     private static func nightPalette(for weatherClass: WeatherClass, colorScheme: ColorScheme) -> Gradient {
-        // di notte: palette più scure; in dark mode spingiamo un po' di più sul nero
         switch weatherClass {
         case .bolt:
             return Gradient(colors: colorScheme == .dark ? [.black, .indigo] : [.indigo, .black.opacity(0.85)])
