@@ -17,7 +17,6 @@ extension URLSession: NetworkSession {}
 
 struct ApiClientImpl: ApiClient {
 
-
     private let baseUrlKey = "API_BASE_URL"
     private let apiKeyKey = "API_KEY"
     private let baseURL: URL
@@ -45,6 +44,12 @@ struct ApiClientImpl: ApiClient {
         return try await fetchForecast(.byCoordinates(coordinates), numberOfForecasts: numberOfForecasts)
     }
     
+    private func check(_ response: URLResponse) throws {
+        if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+            throw ApiClientImplError.httpError(httpResponse.statusCode)
+        }
+    }
+    
     private func fetchForecast(_ mode: FetchMode, numberOfForecasts: Int) async throws -> [Forecast] {
         let url = baseURL.appendingPathComponent(forecastEndPoint)
         
@@ -60,8 +65,8 @@ struct ApiClientImpl: ApiClient {
         
         let (data, response) = try await networkSession.data(for: request)
 
-        // TODO check response for network errors
-        
+        try check(response)
+
         return try JSONDecoder().decode(ForecastQueryResponse.self, from: data).toForecast()
     }
     
@@ -110,7 +115,9 @@ struct ApiClientImpl: ApiClient {
         case byCoordinates(Coordinates)
     }
     
-    private enum ApiClientImplError: Error {
+    enum ApiClientImplError: Error {
         case cannotInitializeClient
+        case httpError(Int)
     }
 }
+
