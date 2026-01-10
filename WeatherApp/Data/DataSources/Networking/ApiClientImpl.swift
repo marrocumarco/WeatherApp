@@ -46,7 +46,7 @@ struct ApiClientImpl: ApiClient {
     
     private func check(_ response: URLResponse) throws {
         if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-            if (200...299).contains(statusCode) {
+            if isRequestSuccessful(statusCode: statusCode) {
                 return
             }
             switch statusCode {
@@ -59,7 +59,11 @@ struct ApiClientImpl: ApiClient {
             }
         }
     }
-    
+
+    private func isRequestSuccessful(statusCode: Int) -> Bool {
+        return (200...299).contains(statusCode)
+    }
+
     private func fetchForecast(_ mode: FetchMode, numberOfForecasts: Int) async throws -> [Forecast] {
         let url = baseURL.appendingPathComponent(forecastEndPoint)
         
