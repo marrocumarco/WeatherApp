@@ -45,8 +45,16 @@ struct ApiClientImpl: ApiClient {
     }
     
     private func check(_ response: URLResponse) throws {
-        if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
-            throw ApiClientImplError.httpError(httpResponse.statusCode)
+        if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+            if (200...299).contains(statusCode) {
+                return
+            }
+            switch statusCode {
+                case 500...599:
+                throw ApiClientImplError.serverError(statusCode)
+            default:
+                throw ApiClientImplError.httpError(statusCode)
+            }
         }
     }
     
@@ -118,6 +126,7 @@ struct ApiClientImpl: ApiClient {
     enum ApiClientImplError: Error {
         case cannotInitializeClient
         case httpError(Int)
+        case serverError(Int)
     }
 }
 

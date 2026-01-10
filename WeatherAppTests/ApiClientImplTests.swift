@@ -61,4 +61,22 @@ struct ApiClientImplTests {
             try await client.fetchForecastBy(Coordinates(latitude: 35.0, longitude: 139.0), numberOfForecasts: 1)
         }
     }
+
+    @Test("throws server error", arguments: [500, 503])
+    func unsuccessfulNetworkCall_serverError(responseStatusCode: Int) async throws {
+        let networkSessionMock = NetworkSessionMock(successCall: false, responseStatusCode: responseStatusCode)
+        let client = try await ApiClientImpl(networkSession: networkSessionMock)
+
+
+        let error = await #expect(throws: ApiClientImpl.ApiClientImplError.self) {
+            try await client.fetchForecastBy(Coordinates(latitude: 35.0, longitude: 139.0), numberOfForecasts: 1)
+        }
+
+        switch error {
+        case .serverError:
+            break
+        default:
+            #expect(Bool(false), "Error should be ApiClientImplError.serverError")
+        }
+    }
 }
