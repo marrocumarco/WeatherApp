@@ -44,19 +44,13 @@ struct ApiClientImpl: ApiClient {
         return try await fetchForecast(.byCoordinates(coordinates), numberOfForecasts: numberOfForecasts)
     }
     
+
     private func check(_ response: URLResponse) throws {
         if let statusCode = (response as? HTTPURLResponse)?.statusCode {
             if isRequestSuccessful(statusCode: statusCode) {
                 return
             }
-            switch statusCode {
-            case 400...499:
-                throw ApiClientImplError.requestError(statusCode)
-            case 500...599:
-                throw ApiClientImplError.serverError(statusCode)
-            default:
-                throw ApiClientImplError.httpError(statusCode)
-            }
+            try throwError(statusCode)
         }
     }
 
@@ -64,6 +58,17 @@ struct ApiClientImpl: ApiClient {
         return (200...299).contains(statusCode)
     }
 
+    private func throwError(_ statusCode: Int) throws {
+        switch statusCode {
+        case 400...499:
+            throw ApiClientImplError.requestError(statusCode)
+        case 500...599:
+            throw ApiClientImplError.serverError(statusCode)
+        default:
+            throw ApiClientImplError.httpError(statusCode)
+        }
+    }
+    
     private func fetchForecast(_ mode: FetchMode, numberOfForecasts: Int) async throws -> [Forecast] {
         let url = baseURL.appendingPathComponent(forecastEndPoint)
         
