@@ -43,7 +43,6 @@ struct ApiClientImpl: ApiClient {
     func fetchForecastBy(_ coordinates: Coordinates, numberOfForecasts: Int) async throws -> [Forecast] {
         return try await fetchForecast(.byCoordinates(coordinates), numberOfForecasts: numberOfForecasts)
     }
-    
 
     private func check(_ response: URLResponse) throws {
         if let statusCode = (response as? HTTPURLResponse)?.statusCode {

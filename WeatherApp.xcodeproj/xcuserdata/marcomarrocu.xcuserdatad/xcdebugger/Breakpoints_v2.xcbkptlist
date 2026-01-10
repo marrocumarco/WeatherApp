@@ -30,13 +30,13 @@
             filePath = "WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "fetchWeatherBy(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "667C6574-F5FD-4362-9FFF-D796AC82CA1F - 84278f2ed38d00ef"
+                  uuid = "667C6574-F5FD-4362-9FFF-D796AC82CA1F - 84278f2ed38d00ce"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -46,11 +46,11 @@
                   urlString = "file:///Users/marcomarrocu/Projects/iOS/WeatherApp/WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "97"
-                  endingLineNumber = "97">
+                  startingLineNumber = "96"
+                  endingLineNumber = "96">
                </Location>
                <Location
-                  uuid = "667C6574-F5FD-4362-9FFF-D796AC82CA1F - 7247d892a9de19d2"
+                  uuid = "667C6574-F5FD-4362-9FFF-D796AC82CA1F - 7247d892a9de19f3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -60,11 +60,11 @@
                   urlString = "file:///Users/marcomarrocu/Projects/iOS/WeatherApp/WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "97"
-                  endingLineNumber = "97">
+                  startingLineNumber = "96"
+                  endingLineNumber = "96">
                </Location>
                <Location
-                  uuid = "667C6574-F5FD-4362-9FFF-D796AC82CA1F - 1b7a9bb4cd16f4e5"
+                  uuid = "667C6574-F5FD-4362-9FFF-D796AC82CA1F - 1b7a9bb4cd16f4c4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -74,8 +74,8 @@
                   urlString = "file:///Users/marcomarrocu/Projects/iOS/WeatherApp/WeatherApp/Data/DataSources/Networking/ApiClientImpl.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "97"
-                  endingLineNumber = "97">
+                  startingLineNumber = "96"
+                  endingLineNumber = "96">
                </Location>
             </Locations>
          </BreakpointContent>
