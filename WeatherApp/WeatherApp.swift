@@ -35,16 +35,20 @@ struct WeatherApp: App {
 
     var body: some Scene {
         WindowGroup {
-            WeatherListView(
-                viewModel: WeatherListViewModelImpl(
-                    weatherUseCase: weatherUseCase,
-                    forecastUseCase: forecastUseCase,
-                    fetchWeatherListUseCase: fetchWeatherListUseCase,
-                    saveLocationsUseCase: saveLocationsUseCase,
-                    locationProvider: locationProvider,
-                    suggestionsProvider: suggestionProvider
+            if NSClassFromString("XCTestCase") == nil {
+                WeatherListView(
+                    viewModel: WeatherListViewModelImpl(
+                        weatherUseCase: weatherUseCase,
+                        forecastUseCase: forecastUseCase,
+                        fetchWeatherListUseCase: fetchWeatherListUseCase,
+                        saveLocationsUseCase: saveLocationsUseCase,
+                        locationProvider: locationProvider,
+                        suggestionsProvider: suggestionProvider
+                    )
                 )
-            )
+            } else {
+                Text("Running Unit Tests...")
+            }
         }
     }
 }
