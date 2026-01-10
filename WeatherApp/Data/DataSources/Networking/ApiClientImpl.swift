@@ -109,7 +109,7 @@ struct ApiClientImpl: ApiClient {
 
         let (data, response) = try await networkSession.data(for: request)
 
-        // TODO check response for network errors
+        try check(response)
 
         return try JSONDecoder().decode(WeatherQueryResponse.self, from: data).toWeather()
     }

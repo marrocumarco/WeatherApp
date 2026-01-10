@@ -112,22 +112,22 @@ struct ApiClientImplTests {
         let _ = try await client.fetchWeatherBy(Coordinates(latitude: 35.0, longitude: 139.0))
     }
 
-//    @Test("throw error when the URL response is not OK", arguments: 400...417)
-//    func unsuccessfulNetworkCall(responseStatusCode: Int) async throws {
-//        let networkSessionMock = NetworkSessionMock(successCall: false, responseStatusCode: responseStatusCode)
-//        let client = try await ApiClientImpl(networkSession: networkSessionMock)
-//
-//        let error = await #expect(throws: ApiClientImpl.ApiClientImplError.self) {
-//            try await client.fetchForecastBy(Coordinates(latitude: 35.0, longitude: 139.0), numberOfForecasts: 1)
-//        }
-//
-//        switch error {
-//        case .requestError:
-//            break
-//        default:
-//            #expect(Bool(false), "Error should be ApiClientImplError.serverError")
-//        }
-//    }
+    @Test("throw error when the URL response is not OK", arguments: 400...417)
+    func weather_unsuccessfulNetworkCall(responseStatusCode: Int) async throws {
+        let networkSessionMock = NetworkSessionMock(successCall: false, responseStatusCode: responseStatusCode, callType: .weather)
+        let client = try await ApiClientImpl(networkSession: networkSessionMock)
+
+        let error = await #expect(throws: ApiClientImpl.ApiClientImplError.self) {
+            try await client.fetchWeatherBy(Coordinates(latitude: 35.0, longitude: 139.0))
+        }
+
+        switch error {
+        case .requestError:
+            break
+        default:
+            #expect(Bool(false), "Error should be ApiClientImplError.serverError")
+        }
+    }
 //
 //    @Test("throws server error", arguments: 500...504)
 //    func unsuccessfulNetworkCall_serverError(responseStatusCode: Int) async throws {
