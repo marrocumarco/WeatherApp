@@ -50,7 +50,9 @@ struct ApiClientImpl: ApiClient {
                 return
             }
             switch statusCode {
-                case 500...599:
+            case 400...499:
+                throw ApiClientImplError.requestError(statusCode)
+            case 500...599:
                 throw ApiClientImplError.serverError(statusCode)
             default:
                 throw ApiClientImplError.httpError(statusCode)
@@ -126,6 +128,7 @@ struct ApiClientImpl: ApiClient {
     enum ApiClientImplError: Error {
         case cannotInitializeClient
         case httpError(Int)
+        case requestError(Int)
         case serverError(Int)
     }
 }
