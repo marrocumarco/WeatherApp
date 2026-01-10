@@ -43,7 +43,7 @@ struct WeatherApp: App {
         }
     }
 
-    fileprivate func isRunningUnitTests() -> Bool {
+    private func isRunningUnitTests() -> Bool {
         return NSClassFromString("XCTestCase") != nil
     }
 
