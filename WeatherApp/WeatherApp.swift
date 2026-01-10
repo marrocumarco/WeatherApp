@@ -7,7 +7,9 @@
 
 import SwiftUI
 import MapKit
-let locationProvider = LocationProviderImpl()
+import CoreLocation
+
+let locationProvider = LocationProviderImpl(locationManager: CLLocationManager())
 
 @main
 struct WeatherApp: App {

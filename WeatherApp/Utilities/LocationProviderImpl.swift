@@ -12,8 +12,21 @@ protocol LocationProviderDelegate: AnyObject {
     func onLocationAvailable(coordinates: Coordinates)
 }
 
+protocol LocationManager: AnyObject {
+    var delegate: (any CLLocationManagerDelegate)? { get set }
+    func requestWhenInUseAuthorization()
+    func requestLocation()
+    var authorizationStatus: CLAuthorizationStatus { get }
+}
+
+extension CLLocationManager: LocationManager {}
+
 final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerDelegate {
-   
+    
+    internal init(locationManager: any LocationManager) {
+        self.locationManager = locationManager
+    }
+    
     weak var locationProviderDelegate: LocationProviderDelegate? {
         didSet {
             configureLocationManager()
@@ -26,8 +39,8 @@ final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerD
         locationManager.requestLocation()
     }
     
-    let locationManager = CLLocationManager()
-        
+    let locationManager: LocationManager
+
     func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse,
            !locations.isEmpty {
