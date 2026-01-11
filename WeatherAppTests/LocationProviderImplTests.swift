@@ -77,5 +77,16 @@ struct LocationProviderImplTests {
         #expect(delegate.error as? LocationProviderError == .locationNotAuthorized)
     }
 
+    @Test("locationProviderDelegate called when location array is empty")
+    @MainActor
+    func locationProviderDelegate_onLocationErrorCalled() async throws {
+        let locationManager = MockLocationManager(authorizationStatus: .authorizedAlways)
 
+        let locationProvider = LocationProviderImpl(locationManager: locationManager)
+        locationProvider.locationProviderDelegate = delegate
+        locationManager.delegate?.locationManager?(CLLocationManager(), didUpdateLocations: [])
+
+        #expect(delegate.onLocationErrorCalled)
+        #expect(delegate.error as? LocationProviderError == .locationNotFound)
+    }
 }

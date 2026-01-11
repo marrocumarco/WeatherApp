@@ -47,13 +47,17 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
 
 
     func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if isLocationAuthorized,
-           !locations.isEmpty {
-            let coordinates = getFirstCoordinates(from: locations)
-            locationProviderDelegate?.onLocationAvailable(coordinates: coordinates)
-        } else {
+
+        guard isLocationAuthorized else {
             locationProviderDelegate?.onLocationError(error: LocationProviderError.locationNotAuthorized)
+            return
         }
+        guard !locations.isEmpty else {
+            locationProviderDelegate?.onLocationError(error: LocationProviderError.locationNotFound)
+            return
+        }
+        let coordinates = getFirstCoordinates(from: locations)
+        locationProviderDelegate?.onLocationAvailable(coordinates: coordinates)
     }
 
     private var isLocationAuthorized: Bool { locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse
@@ -72,6 +76,6 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
 }
 
 enum LocationProviderError: Error {
-    case cannotGetLocation
+    case locationNotFound
     case locationNotAuthorized
 }
