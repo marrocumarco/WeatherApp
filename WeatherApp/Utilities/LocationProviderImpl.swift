@@ -21,7 +21,7 @@ protocol LocationManager: AnyObject {
 
 extension CLLocationManager: LocationManager {}
 
-final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerDelegate {
+final class LocationProviderImpl: NSObject, LocationProvider {
 
     private let locationManager: LocationManager
 
@@ -40,6 +40,9 @@ final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerD
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
     }
+}
+
+extension LocationProviderImpl: CLLocationManagerDelegate {
 
     func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse,
