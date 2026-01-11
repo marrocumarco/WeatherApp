@@ -45,22 +45,27 @@ final class LocationProviderImpl: NSObject, LocationProvider {
 
 extension LocationProviderImpl: CLLocationManagerDelegate {
 
-    private var isLocationAuthorized: Bool { locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse
-    }
 
     func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if isLocationAuthorized,
            !locations.isEmpty {
-            let coordinates = Coordinates(
-                latitude: locations.first!.coordinate.latitude,
-                longitude: locations.first!.coordinate.longitude
-            )
+            let coordinates = getFirstCoordinates(from: locations)
             locationProviderDelegate?.onLocationAvailable(coordinates: coordinates)
         } else {
             locationProviderDelegate?.onLocationError(error: LocationProviderError.cannotGetLocation)
         }
     }
-    
+
+    private var isLocationAuthorized: Bool { locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse
+    }
+
+    private func getFirstCoordinates(from locations: [CLLocation]) -> Coordinates {
+        return Coordinates(
+            latitude: locations.first!.coordinate.latitude,
+            longitude: locations.first!.coordinate.longitude
+        )
+    }
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
         print(error)
     }
