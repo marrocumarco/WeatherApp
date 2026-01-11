@@ -52,7 +52,7 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
             let coordinates = getFirstCoordinates(from: locations)
             locationProviderDelegate?.onLocationAvailable(coordinates: coordinates)
         } else {
-            locationProviderDelegate?.onLocationError(error: LocationProviderError.cannotGetLocation)
+            locationProviderDelegate?.onLocationError(error: LocationProviderError.locationNotAuthorized)
         }
     }
 
@@ -73,4 +73,5 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
 
 enum LocationProviderError: Error {
     case cannotGetLocation
+    case locationNotAuthorized
 }

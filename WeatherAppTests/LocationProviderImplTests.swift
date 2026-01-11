@@ -31,6 +31,7 @@ class MockLocationProviderDelegate: LocationProviderDelegate {
 
     var onLocationAvailableCalled = false
     var onLocationErrorCalled = false
+    private(set) var error: Error?
 
     func onLocationAvailable(coordinates: Coordinates) {
         onLocationAvailableCalled = true
@@ -38,6 +39,7 @@ class MockLocationProviderDelegate: LocationProviderDelegate {
 
     func onLocationError(error: Error) {
         onLocationErrorCalled = true
+        self.error = error
     }
 }
 
@@ -72,6 +74,7 @@ struct LocationProviderImplTests {
         locationManager.delegate?.locationManager?(CLLocationManager(), didUpdateLocations: [CLLocation()])
 
         #expect(delegate.onLocationErrorCalled)
+        #expect(delegate.error as? LocationProviderError == .locationNotAuthorized)
     }
 
 
