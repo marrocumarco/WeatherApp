@@ -39,7 +39,7 @@ final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerD
         locationManager.requestLocation()
     }
     
-    let locationManager: LocationManager
+    private let locationManager: LocationManager
 
     func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse,
