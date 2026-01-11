@@ -29,9 +29,15 @@ class MockLocationManager: LocationManager {
 
 class MockLocationProviderDelegate: LocationProviderDelegate {
 
-    var delegateCalled = false
+    var onLocationAvailableCalled = false
+    var onLocationErrorCalled = false
+
     func onLocationAvailable(coordinates: Coordinates) {
-        delegateCalled = true
+        onLocationAvailableCalled = true
+    }
+
+    func onLocationError(error: Error) {
+        onLocationErrorCalled = true
     }
 }
 
@@ -46,14 +52,27 @@ struct LocationProviderImplTests {
 
     @Test("locationProviderDelegate called when location authorized", arguments: [CLAuthorizationStatus.authorizedAlways, CLAuthorizationStatus.authorizedWhenInUse])
     @MainActor
-    func locationProviderDelegateCalled(authorizationStatus: CLAuthorizationStatus) async throws {
+    func locationProviderDelegate_onLocationAvailableCalledCalled(authorizationStatus: CLAuthorizationStatus) async throws {
         let locationManager = MockLocationManager(authorizationStatus: authorizationStatus)
 
         let locationProvider = LocationProviderImpl(locationManager: locationManager)
         locationProvider.locationProviderDelegate = delegate
         locationManager.delegate?.locationManager?(CLLocationManager(), didUpdateLocations: [CLLocation()])
 
-        #expect(delegate.delegateCalled)
+        #expect(delegate.onLocationAvailableCalled)
     }
+
+    @Test("locationProviderDelegate called when location not authorized", arguments: [CLAuthorizationStatus.denied, CLAuthorizationStatus.notDetermined])
+    @MainActor
+    func locationProviderDelegate_onLocationErrorCalled(authorizationStatus: CLAuthorizationStatus) async throws {
+        let locationManager = MockLocationManager(authorizationStatus: authorizationStatus)
+
+        let locationProvider = LocationProviderImpl(locationManager: locationManager)
+        locationProvider.locationProviderDelegate = delegate
+        locationManager.delegate?.locationManager?(CLLocationManager(), didUpdateLocations: [CLLocation()])
+
+        #expect(delegate.onLocationErrorCalled)
+    }
+
 
 }

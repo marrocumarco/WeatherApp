@@ -10,6 +10,7 @@ import Foundation
 
 protocol LocationProviderDelegate: AnyObject {
     func onLocationAvailable(coordinates: Coordinates)
+    func onLocationError(error: Error)
 }
 
 protocol LocationManager: AnyObject {
@@ -52,6 +53,8 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
                 longitude: locations.first!.coordinate.longitude
             )
             locationProviderDelegate?.onLocationAvailable(coordinates: coordinates)
+        } else {
+            locationProviderDelegate?.onLocationError(error: LocationProviderError.cannotGetLocation)
         }
     }
     

@@ -143,6 +143,10 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
             }
         }
     }
+
+    func onLocationError(error: any Error) {
+        // TODO: - show error on UI
+    }
 }
 
 extension WeatherListViewModelImpl: SuggestionsProviderDelegate {
