@@ -22,24 +22,24 @@ protocol LocationManager: AnyObject {
 extension CLLocationManager: LocationManager {}
 
 final class LocationProviderImpl: NSObject, LocationProvider, CLLocationManagerDelegate {
-    
+
+    private let locationManager: LocationManager
+
     internal init(locationManager: any LocationManager) {
         self.locationManager = locationManager
     }
-    
+
     weak var locationProviderDelegate: LocationProviderDelegate? {
         didSet {
             configureLocationManager()
         }
     }
-    
+
     private func configureLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
     }
-    
-    private let locationManager: LocationManager
 
     func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse,
