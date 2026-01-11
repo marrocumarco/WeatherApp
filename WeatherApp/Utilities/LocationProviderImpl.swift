@@ -44,16 +44,15 @@ final class LocationProviderImpl: NSObject, LocationProvider {
 }
 
 extension LocationProviderImpl: CLLocationManagerDelegate {
-
-
+    
     func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         guard isLocationAuthorized else {
-            locationProviderDelegate?.onLocationError(error: LocationProviderError.locationNotAuthorized)
+            signal(LocationProviderError.locationNotAuthorized)
             return
         }
         guard !locations.isEmpty else {
-            locationProviderDelegate?.onLocationError(error: LocationProviderError.locationNotFound)
+            signal(LocationProviderError.locationNotFound)
             return
         }
         let coordinates = getFirstCoordinates(from: locations)
@@ -61,6 +60,10 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
     }
 
     private var isLocationAuthorized: Bool { locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse
+    }
+
+    private func signal(_ error: LocationProviderError) {
+        locationProviderDelegate?.onLocationError(error: error)
     }
 
     private func getFirstCoordinates(from locations: [CLLocation]) -> Coordinates {
