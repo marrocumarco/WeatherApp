@@ -74,11 +74,12 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        print(error)
+        locationProviderDelegate?.onLocationError(error: LocationProviderError.locationManagerError)
     }
 }
 
 enum LocationProviderError: Error {
     case locationNotFound
     case locationNotAuthorized
+    case locationManagerError
 }

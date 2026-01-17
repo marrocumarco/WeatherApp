@@ -89,4 +89,20 @@ struct LocationProviderImplTests {
         #expect(delegate.onLocationErrorCalled)
         #expect(delegate.error as? LocationProviderError == .locationNotFound)
     }
+
+    @Test("locationProviderDelegate called when location manager fails")
+    @MainActor
+    func locationProviderDelegate_locationManagerFails_onLocationErrorCalled() async throws {
+
+        struct MockError: Error {}
+
+        let locationManager = MockLocationManager(authorizationStatus: .authorizedAlways)
+
+        let locationProvider = LocationProviderImpl(locationManager: locationManager)
+        locationProvider.locationProviderDelegate = delegate
+        locationManager.delegate?.locationManager?(CLLocationManager(), didFailWithError: MockError())
+
+        #expect(delegate.onLocationErrorCalled)
+        #expect(delegate.error as? LocationProviderError == .locationManagerError)
+    }
 }
