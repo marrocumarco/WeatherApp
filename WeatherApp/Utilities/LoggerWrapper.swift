@@ -7,7 +7,10 @@
 
 import Foundation
 
+protocol LogEngine {
+
+}
+
 struct LoggerWrapper {
-
-
+    let logEngine: LogEngine
 }

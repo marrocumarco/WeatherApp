@@ -11,9 +11,14 @@ import Testing
 @MainActor
 struct LoggerWrapperTests {
 
+    struct MockLogEngine: LogEngine {
+
+    }
+
     @Test func `logger initialization`() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        _ = LoggerWrapper()
+        let logEngine: LogEngine = MockLogEngine()
+        _ = LoggerWrapper(logEngine: logEngine)
     }
 
 }
