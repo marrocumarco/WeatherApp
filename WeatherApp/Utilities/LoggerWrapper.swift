@@ -8,9 +8,31 @@
 import Foundation
 
 protocol LogEngine {
-
+    func error(message: String)
+    func info(message: String)
+    func debug(message: String)
+    func fault(message: String)
 }
 
 struct LoggerWrapper {
-    let logEngine: LogEngine
+
+    private init() {}
+    
+    static var logEngine: LogEngine?
+
+    static func error(message: String) {
+        logEngine?.error(message: message)
+    }
+
+    static func info(message: String) {
+        logEngine?.info(message: message)
+    }
+
+    static func debug(message: String) {
+        logEngine?.debug(message: message)
+    }
+
+    static func fault(message: String) {
+        logEngine?.fault(message: message)
+    }
 }

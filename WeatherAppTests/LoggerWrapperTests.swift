@@ -11,14 +11,77 @@ import Testing
 @MainActor
 struct LoggerWrapperTests {
 
-    struct MockLogEngine: LogEngine {
+    class MockLogEngine: LogEngine {
+        
+        var errorMessage: String?
+        var errorCalled = false
+        var infoCalled = false
+        var debugCalled = false
+        var faultCalled = false
 
+        func error(message: String) {
+            errorMessage = message
+            errorCalled = true
+        }
+
+        func info(message: String) {
+            errorMessage = message
+            infoCalled = true
+        }
+
+        func debug(message: String) {
+            errorMessage = message
+            debugCalled = true
+        }
+
+        func fault(message: String) {
+            errorMessage = message
+            faultCalled = true
+        }
     }
 
     @Test func `logger initialization`() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
         let logEngine: LogEngine = MockLogEngine()
-        _ = LoggerWrapper(logEngine: logEngine)
+        LoggerWrapper.logEngine = logEngine
     }
 
+    @Test func `write error log`() async throws {
+        let logEngine = MockLogEngine()
+        LoggerWrapper.logEngine = logEngine
+
+        LoggerWrapper.error(message: "test")
+
+        #expect(logEngine.errorMessage == "test")
+        #expect(logEngine.errorCalled)
+    }
+
+    @Test func `write info log`() async throws {
+        let logEngine = MockLogEngine()
+        LoggerWrapper.logEngine = logEngine
+
+        LoggerWrapper.info(message: "test")
+
+        #expect(logEngine.errorMessage == "test")
+        #expect(logEngine.infoCalled)
+    }
+
+    @Test func `write debug log`() async throws {
+        let logEngine = MockLogEngine()
+        LoggerWrapper.logEngine = logEngine
+
+        LoggerWrapper.debug(message: "test")
+
+        #expect(logEngine.errorMessage == "test")
+        #expect(logEngine.debugCalled)
+    }
+
+    @Test func `write fault log`() async throws {
+        let logEngine = MockLogEngine()
+        LoggerWrapper.logEngine = logEngine
+
+        LoggerWrapper.fault(message: "test")
+
+        #expect(logEngine.errorMessage == "test")
+        #expect(logEngine.faultCalled)
+    }
 }
