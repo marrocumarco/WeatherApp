@@ -10,5 +10,6 @@ import Foundation
 enum LogCategory: String {
     case weatherService
     case network
+    case location
     case ui
 }

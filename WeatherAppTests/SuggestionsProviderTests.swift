@@ -9,41 +9,7 @@ import Testing
 import MapKit
 @testable import WeatherApp
 
-class SuggestionsProviderDelegateMock: SuggestionsProviderDelegate {
-    var resultsFound = false
-    var error: Error?
-    func onSuggestionsReceived(result: [String]) {
-        resultsFound = true
-    }
-    
-    func onError(error: any Error) {
-        self.error = error
-    }
-}
 
-class SearchCompleterMock: SearchCompleter {
-    var searchEndsWithError = false
-
-    var resultTypes: MKLocalSearchCompleter.ResultType = []
-
-    var addressFilter: MKAddressFilter?
-
-    var delegate: (any MKLocalSearchCompleterDelegate)?
-
-    var queryFragment: String = "" {
-        didSet {
-            if searchEndsWithError {
-                delegate?.completer?(MKLocalSearchCompleter(), didFailWithError: SearchCompleterMockError.test)
-            } else {
-                delegate?.completerDidUpdateResults?(MKLocalSearchCompleter())
-            }
-        }
-    }
-
-    enum SearchCompleterMockError: Error {
-        case test
-    }
-}
 
 @MainActor
 struct SuggestionsProviderTests {

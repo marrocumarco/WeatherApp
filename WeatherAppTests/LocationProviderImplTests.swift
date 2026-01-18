@@ -9,39 +9,6 @@ import Testing
 @testable import WeatherApp
 import CoreLocation
 
-class MockLocationManager: LocationManager {
-    internal init(authorizationStatus: CLAuthorizationStatus) {
-        self.authorizationStatus = authorizationStatus
-    }
-    
-    var delegate: (any CLLocationManagerDelegate)?
-    
-    func requestWhenInUseAuthorization() {
-
-    }
-    
-    func requestLocation() {
-
-    }
-    
-    var authorizationStatus: CLAuthorizationStatus
-}
-
-class MockLocationProviderDelegate: LocationProviderDelegate {
-
-    var onLocationAvailableCalled = false
-    var onLocationErrorCalled = false
-    private(set) var error: Error?
-
-    func onLocationAvailable(coordinates: Coordinates) {
-        onLocationAvailableCalled = true
-    }
-
-    func onLocationError(error: Error) {
-        onLocationErrorCalled = true
-        self.error = error
-    }
-}
 
 struct LocationProviderImplTests {
 
@@ -94,6 +61,7 @@ struct LocationProviderImplTests {
     @MainActor
     func locationProviderDelegate_locationManagerFails_onLocationErrorCalled() async throws {
 
+        LoggerWrapper.logEngine = EmptyLogEngine()
         struct MockError: Error {}
 
         let locationManager = MockLocationManager(authorizationStatus: .authorizedAlways)

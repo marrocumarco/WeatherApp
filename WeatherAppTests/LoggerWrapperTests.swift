@@ -12,41 +12,6 @@ import Testing
 @Suite(.serialized)
 class LoggerWrapperTests {
 
-    class MockLogEngine: LogEngine {
-        
-        var errorMessage: String?
-        var category: LogCategory?
-
-        var errorCalled = false
-        var infoCalled = false
-        var debugCalled = false
-        var faultCalled = false
-        
-        func error(message: String, category: LogCategory) {
-            errorMessage = message
-            self.category = category
-            errorCalled = true
-        }
-
-        func info(message: String, category: LogCategory) {
-            errorMessage = message
-            self.category = category
-            infoCalled = true
-        }
-
-        func debug(message: String, category: LogCategory) {
-            errorMessage = message
-            self.category = category
-            debugCalled = true
-        }
-
-        func fault(message: String, category: LogCategory) {
-            errorMessage = message
-            self.category = category
-            faultCalled = true
-        }
-    }
-
     deinit {
         LoggerWrapper.logEngine = nil
     }
@@ -57,6 +22,8 @@ class LoggerWrapperTests {
     }
 
     @Test func `log error fails when logEngine is not set`() async throws {
+
+        LoggerWrapper.logEngine = nil
 
         var assertionHandlerCalled = false
         let assertionHandler: (String, StaticString, UInt) -> Void = { _, _, _ in
@@ -70,6 +37,8 @@ class LoggerWrapperTests {
 
     @Test func `log info fails when logEngine is not set`() async throws {
 
+        LoggerWrapper.logEngine = nil
+
         var assertionHandlerCalled = false
         let assertionHandler: (String, StaticString, UInt) -> Void = { _, _, _ in
             assertionHandlerCalled = true
@@ -82,6 +51,8 @@ class LoggerWrapperTests {
 
     @Test func `log debug fails when logEngine is not set`() async throws {
 
+        LoggerWrapper.logEngine = nil
+
         var assertionHandlerCalled = false
         let assertionHandler: (String, StaticString, UInt) -> Void = { _, _, _ in
             assertionHandlerCalled = true
@@ -93,6 +64,8 @@ class LoggerWrapperTests {
     }
 
     @Test func `log fault fails when logEngine is not set`() async throws {
+
+        LoggerWrapper.logEngine = nil
 
         var assertionHandlerCalled = false
         let assertionHandler: (String, StaticString, UInt) -> Void = { _, _, _ in
