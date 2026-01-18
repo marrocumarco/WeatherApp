@@ -38,4 +38,14 @@ class LocalDataSourceImplTests {
         #expect(savedLocations == testLocations)
     }
 
+    @Test func `test save ampty array`() async throws {
+        let testLocations: [String] = []
+
+        try sut.save(locations: testLocations)
+
+        let savedLocations = sut.getLocations()
+
+        #expect(savedLocations.isEmpty)
+    }
+
 }
