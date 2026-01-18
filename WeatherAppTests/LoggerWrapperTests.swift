@@ -9,7 +9,8 @@ import Testing
 @testable import WeatherApp
 
 @MainActor
-struct LoggerWrapperTests {
+@Suite(.serialized)
+class LoggerWrapperTests {
 
     class MockLogEngine: LogEngine {
         
@@ -46,9 +47,61 @@ struct LoggerWrapperTests {
         }
     }
 
+    deinit {
+        LoggerWrapper.logEngine = nil
+    }
+
     @Test func `logger initialization`() async throws {
         let logEngine: LogEngine = MockLogEngine()
         LoggerWrapper.logEngine = logEngine
+    }
+
+    @Test func `log error fails when logEngine is not set`() async throws {
+
+        var assertionHandlerCalled = false
+        let assertionHandler: (String, StaticString, UInt) -> Void = { _, _, _ in
+            assertionHandlerCalled = true
+        }
+        LoggerWrapper.assertionHandler = assertionHandler
+        LoggerWrapper.error(message: "test", category: .network)
+
+        #expect(assertionHandlerCalled)
+    }
+
+    @Test func `log info fails when logEngine is not set`() async throws {
+
+        var assertionHandlerCalled = false
+        let assertionHandler: (String, StaticString, UInt) -> Void = { _, _, _ in
+            assertionHandlerCalled = true
+        }
+        LoggerWrapper.assertionHandler = assertionHandler
+        LoggerWrapper.info(message: "test", category: .network)
+
+        #expect(assertionHandlerCalled)
+    }
+
+    @Test func `log debug fails when logEngine is not set`() async throws {
+
+        var assertionHandlerCalled = false
+        let assertionHandler: (String, StaticString, UInt) -> Void = { _, _, _ in
+            assertionHandlerCalled = true
+        }
+        LoggerWrapper.assertionHandler = assertionHandler
+        LoggerWrapper.debug(message: "test", category: .network)
+
+        #expect(assertionHandlerCalled)
+    }
+
+    @Test func `log fault fails when logEngine is not set`() async throws {
+
+        var assertionHandlerCalled = false
+        let assertionHandler: (String, StaticString, UInt) -> Void = { _, _, _ in
+            assertionHandlerCalled = true
+        }
+        LoggerWrapper.assertionHandler = assertionHandler
+        LoggerWrapper.fault(message: "test", category: .network)
+
+        #expect(assertionHandlerCalled)
     }
 
     @Test func `write error log`() async throws {
