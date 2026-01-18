@@ -14,13 +14,16 @@ struct LoggerWrapperTests {
     class MockLogEngine: LogEngine {
         
         var errorMessage: String?
+        var category: LogCategory?
+
         var errorCalled = false
         var infoCalled = false
         var debugCalled = false
         var faultCalled = false
-
-        func error(message: String) {
+        
+        func error(message: String, category: LogCategory) {
             errorMessage = message
+            self.category = category
             errorCalled = true
         }
 
@@ -49,10 +52,12 @@ struct LoggerWrapperTests {
         let logEngine = MockLogEngine()
         LoggerWrapper.logEngine = logEngine
 
-        LoggerWrapper.error(message: "test")
+        LoggerWrapper.error(message: "test", category: .network)
 
         #expect(logEngine.errorMessage == "test")
+        #expect(logEngine.category == .network)
         #expect(logEngine.errorCalled)
+
     }
 
     @Test func `write info log`() async throws {
