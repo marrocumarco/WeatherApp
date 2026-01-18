@@ -14,7 +14,7 @@ protocol LogEngine {
     func fault(message: String, category: LogCategory)
 }
 
-struct LoggerWrapper {
+struct Log {
 
     private init() {}
     

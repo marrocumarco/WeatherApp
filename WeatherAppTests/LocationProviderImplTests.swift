@@ -61,7 +61,7 @@ struct LocationProviderImplTests {
     @MainActor
     func locationProviderDelegate_locationManagerFails_onLocationErrorCalled() async throws {
 
-        LoggerWrapper.logEngine = EmptyLogEngine()
+        Log.logEngine = EmptyLogEngine()
         struct MockError: Error {}
 
         let locationManager = MockLocationManager(authorizationStatus: .authorizedAlways)

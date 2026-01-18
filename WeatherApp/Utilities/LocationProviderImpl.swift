@@ -74,7 +74,7 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        LoggerWrapper.error(message: error.localizedDescription, category: .location)
+        Log.error(message: error.localizedDescription, category: .location)
         locationProviderDelegate?.onLocationError(error: LocationProviderError.locationManagerError)
     }
 }

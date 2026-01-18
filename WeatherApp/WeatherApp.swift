@@ -15,8 +15,8 @@ let locationProvider = LocationProviderImpl(locationManager: CLLocationManager()
 struct WeatherApp: App {
     
     init() {
-        LoggerWrapper.logEngine = LogEngineImpl(subsystem: Bundle.main.bundleIdentifier!)
-        LoggerWrapper.info(message: "WeatherApp is starting", category: .ui)
+        Log.logEngine = LogEngineImpl(subsystem: Bundle.main.bundleIdentifier!)
+        Log.info(message: "WeatherApp is starting", category: .ui)
         
         weatherRepository = WeatherRepositoryImpl(
             apiClient: try! ApiClientImpl(networkSession: URLSession.shared)
