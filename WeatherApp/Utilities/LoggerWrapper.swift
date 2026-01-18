@@ -9,9 +9,9 @@ import Foundation
 
 protocol LogEngine {
     func error(message: String, category: LogCategory)
-    func info(message: String)
-    func debug(message: String)
-    func fault(message: String)
+    func info(message: String, category: LogCategory)
+    func debug(message: String, category: LogCategory)
+    func fault(message: String, category: LogCategory)
 }
 
 struct LoggerWrapper {
@@ -24,15 +24,15 @@ struct LoggerWrapper {
         logEngine?.error(message: message, category: category)
     }
 
-    static func info(message: String) {
-        logEngine?.info(message: message)
+    static func info(message: String, category: LogCategory) {
+        logEngine?.info(message: message, category: category)
     }
 
-    static func debug(message: String) {
-        logEngine?.debug(message: message)
+    static func debug(message: String, category: LogCategory) {
+        logEngine?.debug(message: message, category: category)
     }
 
-    static func fault(message: String) {
-        logEngine?.fault(message: message)
+    static func fault(message: String, category: LogCategory) {
+        logEngine?.fault(message: message, category: category)
     }
 }

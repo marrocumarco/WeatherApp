@@ -18,15 +18,15 @@ struct LogEngineImpl: LogEngine {
         Logger(subsystem: subsystem, category: category.rawValue).error("\(message)")
     }
 
-    func info(message: String) {
-        Logger(subsystem: subsystem, category: "").info("\(message)")
+    func info(message: String, category: LogCategory) {
+        Logger(subsystem: subsystem, category: category.rawValue).info("\(message)")
     }
 
-    func debug(message: String) {
-        Logger(subsystem: subsystem, category: "").debug("\(message)")
+    func debug(message: String, category: LogCategory) {
+        Logger(subsystem: subsystem, category: category.rawValue).debug("\(message)")
     }
 
-    func fault(message: String) {
-        Logger(subsystem: subsystem, category: "").fault("\(message)")
+    func fault(message: String, category: LogCategory) {
+        Logger(subsystem: subsystem, category: category.rawValue).fault("\(message)")
     }
 }

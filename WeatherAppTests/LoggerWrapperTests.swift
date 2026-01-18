@@ -27,18 +27,21 @@ struct LoggerWrapperTests {
             errorCalled = true
         }
 
-        func info(message: String) {
+        func info(message: String, category: LogCategory) {
             errorMessage = message
+            self.category = category
             infoCalled = true
         }
 
-        func debug(message: String) {
+        func debug(message: String, category: LogCategory) {
             errorMessage = message
+            self.category = category
             debugCalled = true
         }
 
-        func fault(message: String) {
+        func fault(message: String, category: LogCategory) {
             errorMessage = message
+            self.category = category
             faultCalled = true
         }
     }
@@ -64,9 +67,10 @@ struct LoggerWrapperTests {
         let logEngine = MockLogEngine()
         LoggerWrapper.logEngine = logEngine
 
-        LoggerWrapper.info(message: "test")
+        LoggerWrapper.info(message: "test", category: .network)
 
         #expect(logEngine.errorMessage == "test")
+        #expect(logEngine.category == .network)
         #expect(logEngine.infoCalled)
     }
 
@@ -74,9 +78,10 @@ struct LoggerWrapperTests {
         let logEngine = MockLogEngine()
         LoggerWrapper.logEngine = logEngine
 
-        LoggerWrapper.debug(message: "test")
+        LoggerWrapper.debug(message: "test", category: .network)
 
         #expect(logEngine.errorMessage == "test")
+        #expect(logEngine.category == .network)
         #expect(logEngine.debugCalled)
     }
 
@@ -84,9 +89,10 @@ struct LoggerWrapperTests {
         let logEngine = MockLogEngine()
         LoggerWrapper.logEngine = logEngine
 
-        LoggerWrapper.fault(message: "test")
+        LoggerWrapper.fault(message: "test", category: .network)
 
         #expect(logEngine.errorMessage == "test")
+        #expect(logEngine.category == .network)
         #expect(logEngine.faultCalled)
     }
 }
