@@ -8,14 +8,19 @@
 import Foundation
 
 struct LocalDataSourceImpl: LocalDataSource {
-    
+
+    public init(userDefaults: UserDefaults) {
+        self.userDefaults = userDefaults
+    }
+
     private let locationsKey = "locationsKey"
-    
+    private let userDefaults: UserDefaults
+
     func save(locations: [String]) throws {
-        UserDefaults.standard.setValue(locations, forKey: locationsKey)
+        userDefaults.setValue(locations, forKey: locationsKey)
     }
     
     func getLocations() -> [String] {
-        UserDefaults.standard.value(forKey: locationsKey) as? [String] ?? []
+        userDefaults.value(forKey: locationsKey) as? [String] ?? []
     }
 }

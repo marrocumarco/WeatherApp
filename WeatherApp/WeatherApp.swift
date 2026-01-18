@@ -28,7 +28,7 @@ struct WeatherApp: App {
         saveLocationsUseCase = SaveLocationsUseCaseImpl(locationsRepository: locationRepository)
     }
     
-    private let localDataSource = LocalDataSourceImpl()
+    private let localDataSource = LocalDataSourceImpl(userDefaults: .standard)
     private let weatherRepository: any WeatherRepository
     private let locationRepository: any LocationsRepository
     private let geocoder = GeocoderImpl()
