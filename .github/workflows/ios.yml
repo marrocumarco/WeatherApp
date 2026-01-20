@@ -51,4 +51,4 @@ jobs:
         if: always()
         with:
           path: TestResults.xcresult
-          show_passed_tests: false 
+          show-passed-tests: false 
