@@ -7,10 +7,7 @@
 
 import Foundation
 
-protocol NetworkConfiguration {
-    var apiBaseURL: URL { get }
-    var apiKey: String { get }
-}
+
 
 struct NetworkConfigurationImpl: NetworkConfiguration {
     let apiBaseURL: URL
