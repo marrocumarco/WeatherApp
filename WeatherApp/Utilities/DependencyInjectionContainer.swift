@@ -23,7 +23,7 @@ struct DependencyInjectionContainer {
     init() throws {
 
         weatherRepository = WeatherRepositoryImpl(
-            apiClient: try ApiClientImpl(networkSession: URLSession.shared)
+            apiClient: try ApiClientImpl(networkSession: URLSession.shared, networkConfiguration: NetworkConfigurationImpl())
         )
         weatherUseCase = FetchWeatherUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
         forecastUseCase = FetchForecastUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)

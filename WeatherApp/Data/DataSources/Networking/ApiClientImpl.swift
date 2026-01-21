@@ -13,30 +13,49 @@ protocol NetworkSession {
     ) async throws -> (Data, URLResponse)
 }
 
+protocol NetworkConfiguration {
+    var apiBaseURL: URL { get }
+    var apiKey: String { get }
+}
+
+struct NetworkConfigurationImpl: NetworkConfiguration {
+    let apiBaseURL: URL
+    let apiKey: String
+
+    private let baseUrlKey = "API_BASE_URL"
+    private let apiKeyKey = "API_KEY"
+
+    init() throws {
+        if let url = Bundle.main.url(forResource: "Info", withExtension: "plist"),
+           let dict = NSDictionary(contentsOf: url) as? [String: Any],
+           let urlString = dict[baseUrlKey] as? String,
+           let url = URL(string: urlString),
+           let apiKey = dict[apiKeyKey] as? String {
+            apiBaseURL = url
+            self.apiKey = apiKey
+        } else {
+            throw NetworkConfigurationImplError.cannotInitializeNetworkConfiguration
+        }
+    }
+
+    enum NetworkConfigurationImplError: Error {
+        case cannotInitializeNetworkConfiguration
+    }
+}
+
 extension URLSession: NetworkSession {}
 
 struct ApiClientImpl: ApiClient {
 
-    private let baseUrlKey = "API_BASE_URL"
-    private let apiKeyKey = "API_KEY"
     private let baseURL: URL
     private let apiKey: String
     private let weatherEndPoint = "weather"
     private let forecastEndPoint = "forecast"
     private let networkSession: NetworkSession
 
-    init(networkSession: NetworkSession) throws {
-        if let url = Bundle.main.url(forResource: "Info", withExtension: "plist"),
-            let dict = NSDictionary(contentsOf: url) as? [String: Any],
-            let urlString = dict[baseUrlKey] as? String,
-            let url = URL(string: urlString),
-            let apiKey = dict[apiKeyKey] as? String
-        {
-            baseURL = url
-            self.apiKey = apiKey
-        } else {
-            throw ApiClientImplError.cannotInitializeClient
-        }
+    init(networkSession: NetworkSession, networkConfiguration: NetworkConfiguration) throws {
+        self.baseURL = networkConfiguration.apiBaseURL
+        self.apiKey = networkConfiguration.apiKey
         self.networkSession = networkSession
     }
 
