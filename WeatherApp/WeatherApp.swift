@@ -7,7 +7,6 @@
 
 import SwiftUI
 import MapKit
-import CoreLocation
 
 let locationProvider = LocationProviderImpl(locationManager: CLLocationManager())
 
@@ -17,33 +16,16 @@ struct WeatherApp: App {
     init() {
         Log.logEngine = LogEngineImpl(subsystem: Bundle.main.bundleIdentifier!)
         Log.info(message: "WeatherApp is starting", category: .ui)
-        
-        weatherRepository = WeatherRepositoryImpl(
-            apiClient: try! ApiClientImpl(networkSession: URLSession.shared)
-        )
-        weatherUseCase = FetchWeatherUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
-        forecastUseCase = FetchForecastUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
-        locationRepository = LocationsRepositoryImpl(localDataSource: localDataSource)
-        fetchWeatherListUseCase = FetchWeathersListUseCaseImpl(locationsRepository: locationRepository, weatherRepository: weatherRepository)
-        saveLocationsUseCase = SaveLocationsUseCaseImpl(locationsRepository: locationRepository)
     }
-    
-    private let localDataSource = LocalDataSourceImpl(userDefaults: .standard)
-    private let weatherRepository: any WeatherRepository
-    private let locationRepository: any LocationsRepository
-    private let geocoder = GeocoderImpl()
-    private let weatherUseCase: FetchWeatherUseCaseImpl
-    private let forecastUseCase: FetchForecastUseCaseImpl
-    private let fetchWeatherListUseCase: FetchWeathersListUseCaseImpl
-    private let saveLocationsUseCase: any SaveLocationsUseCase
-    private let suggestionProvider: SuggestionsProvider = SuggestionsProviderImpl(completer: MKLocalSearchCompleter())
 
     var body: some Scene {
         WindowGroup {
-            if !isRunningUnitTests() {
-                buildMainView()
-            } else {
+            if isRunningUnitTests() {
                 Text("Running Unit Tests...")
+            } else if let listView = try? buildMainView() {
+                listView
+            } else {
+                Text("Error loading app...")
             }
         }
     }
@@ -52,16 +34,10 @@ struct WeatherApp: App {
         return NSClassFromString("XCTestCase") != nil
     }
 
-    private func buildMainView() -> WeatherListView {
+    private func buildMainView() throws -> WeatherListView {
+        let viewModel = try DependencyInjectionContainer().getWeatherListViewModel()
         return WeatherListView(
-            viewModel: WeatherListViewModelImpl(
-                weatherUseCase: weatherUseCase,
-                forecastUseCase: forecastUseCase,
-                fetchWeatherListUseCase: fetchWeatherListUseCase,
-                saveLocationsUseCase: saveLocationsUseCase,
-                locationProvider: locationProvider,
-                suggestionsProvider: suggestionProvider
-            )
+            viewModel: viewModel
         )
     }
 }

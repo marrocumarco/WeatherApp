@@ -7,16 +7,17 @@
 @testable import WeatherApp
 import Testing
 
+@MainActor
 struct DependencyInjectionContainerTests {
 
     var sut: DependencyInjectionContainer!
     
     init() {
-        sut = DependencyInjectionContainer()
+        sut = try? DependencyInjectionContainer()
     }
 
-//    @Test func <#test function name#>() async throws {
-//        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-//    }
+    @Test func `returns WeatherListViewModel`() async throws {
+        let result: WeatherListViewModel = sut.getWeatherListViewModel()
+    }
 
 }
