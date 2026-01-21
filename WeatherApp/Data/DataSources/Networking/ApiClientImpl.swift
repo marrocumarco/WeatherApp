@@ -7,12 +7,6 @@
 
 import Foundation
 
-protocol NetworkSession {
-    func data(
-        for request: URLRequest
-    ) async throws -> (Data, URLResponse)
-}
-
 protocol NetworkConfiguration {
     var apiBaseURL: URL { get }
     var apiKey: String { get }
