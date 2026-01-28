@@ -13,11 +13,11 @@ struct DependencyInjectionContainerTests {
     var sut: DependencyInjectionContainer!
     
     init() {
-        sut = try? DependencyInjectionContainer()
+        sut = try? DependencyInjectionContainer(configurationDictionary: ["API_KEY":"testApiKey1", "API_BASE_URL":"testApiUrl1"] )
     }
 
     @Test func `returns WeatherListViewModel`() async throws {
-        let result: WeatherListViewModel = sut.getWeatherListViewModel()
+        let _: WeatherListViewModel = sut.getWeatherListViewModel()
     }
 
 }

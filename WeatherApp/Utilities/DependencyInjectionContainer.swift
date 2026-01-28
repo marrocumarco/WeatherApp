@@ -20,14 +20,9 @@ struct DependencyInjectionContainer {
     private let saveLocationsUseCase: any SaveLocationsUseCase
     private let suggestionProvider: SuggestionsProvider = SuggestionsProviderImpl(completer: MKLocalSearchCompleter())
 
-    init() throws {
+    init(configurationDictionary: [String: Any]) throws {
 
-        guard let url = Bundle.main.url(forResource: "Info", withExtension: "plist"),
-           let dict = NSDictionary(contentsOf: url) as? [String: Any] else {
-            throw DependencyInjectionContainerError()
-        }
-
-        let networkConfiguration = try ConfigurationReaderImpl().readNetworkConfiguration(from: dict)
+        let networkConfiguration = try ConfigurationReaderImpl().readNetworkConfiguration(from: configurationDictionary)
 
         weatherRepository = WeatherRepositoryImpl(
             apiClient: try ApiClientImpl(networkSession: URLSession.shared, networkConfiguration: networkConfiguration)

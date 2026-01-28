@@ -35,10 +35,18 @@ struct WeatherApp: App {
     }
 
     private func buildMainView() throws -> WeatherListView {
-        let viewModel = try DependencyInjectionContainer().getWeatherListViewModel()
+        guard let url = Bundle.main.url(forResource: "Info", withExtension: "plist"),
+           let dict = NSDictionary(contentsOf: url) as? [String: Any] else {
+            throw WeatherAppError.cannotLoadPlist
+        }
+        let viewModel = try DependencyInjectionContainer(configurationDictionary: dict).getWeatherListViewModel()
         return WeatherListView(
             viewModel: viewModel
         )
+    }
+
+    enum WeatherAppError: Error {
+        case cannotLoadPlist
     }
 }
 
