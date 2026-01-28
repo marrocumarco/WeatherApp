@@ -22,8 +22,15 @@ struct DependencyInjectionContainer {
 
     init() throws {
 
+        guard let url = Bundle.main.url(forResource: "Info", withExtension: "plist"),
+           let dict = NSDictionary(contentsOf: url) as? [String: Any] else {
+            throw DependencyInjectionContainerError()
+        }
+
+        let networkConfiguration = try ConfigurationReaderImpl().readNetworkConfiguration(from: dict)
+
         weatherRepository = WeatherRepositoryImpl(
-            apiClient: try ApiClientImpl(networkSession: URLSession.shared, networkConfiguration: NetworkConfigurationImpl())
+            apiClient: try ApiClientImpl(networkSession: URLSession.shared, networkConfiguration: networkConfiguration)
         )
         weatherUseCase = FetchWeatherUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
         forecastUseCase = FetchForecastUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
@@ -42,4 +49,6 @@ struct DependencyInjectionContainer {
             suggestionsProvider: suggestionProvider
         )
     }
+
+    struct DependencyInjectionContainerError: Error {}
 }
