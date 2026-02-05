@@ -19,7 +19,7 @@ struct LocalDataSourceImpl: LocalDataSource {
     func save(locations: [String]) throws {
         userDefaults.setValue(locations, forKey: locationsKey)
     }
-    
+
     func getLocations() -> [String] {
         userDefaults.value(forKey: locationsKey) as? [String] ?? []
     }
