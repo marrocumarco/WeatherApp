@@ -9,11 +9,20 @@ import Foundation
 
 struct WeatherQueryResponse: Decodable {
     let name: String
-    let dt: Int
+    let date: Int
     let timezone: Int
     let weather: [WeatherApi]
     let main: MainInfoApi
     let sys: SystemInfoApi
+
+    enum CodingKeys: String, CodingKey {
+        case name
+        case date = "dt"
+        case timezone
+        case weather
+        case main
+        case sys
+    }
 }
 
 extension WeatherQueryResponse {
@@ -29,7 +38,7 @@ extension WeatherQueryResponse {
         return Weather(
             id: weather.id,
             weatherClass: try WeatherClassProvider.weatherClass(for: weather.id),
-            date: Date(timeIntervalSince1970: TimeInterval(dt)),
+            date: Date(timeIntervalSince1970: TimeInterval(date)),
             timezone: timezone,
             name: name,
             mainDescription: weather.main,
