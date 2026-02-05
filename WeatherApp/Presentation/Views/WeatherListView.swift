@@ -157,4 +157,3 @@ struct WeatherListViewCell: View {
 #Preview {
     WeatherListView(viewModel: WeatherListViewModelMock())
 }
-
