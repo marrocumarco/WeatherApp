@@ -55,7 +55,7 @@ struct DailyCardView: View {
 
 #Preview {
     struct PreviewContainer: View {
-        @Namespace var ns
+        @Namespace var namespace
         var body: some View {
             let sampleWeather = WeatherUI(
                 isCurrentLocation: true,
@@ -77,7 +77,7 @@ struct DailyCardView: View {
                 ForecastUI(time: "15", temperature: "22.5°", iconName: "cloud"),
                 ForecastUI(time: "16", temperature: "21.5°", iconName: "cloud.rain"),
             ]
-            return WeatherDetailView(weather: sampleWeather, forecastList: sampleForecast, namespace: ns)
+            return WeatherDetailView(weather: sampleWeather, forecastList: sampleForecast, namespace: namespace)
                 .padding()
         }
     }
