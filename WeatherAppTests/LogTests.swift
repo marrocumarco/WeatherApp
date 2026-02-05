@@ -12,8 +12,8 @@ import Testing
 @Suite(.serialized)
 class LoggerWrapperTests {
 
-    deinit {
-        Log.logEngine = nil
+    init() {
+        Log.logEngine = MockLogEngine()
     }
 
     @Test func `logger initialization`() async throws {
