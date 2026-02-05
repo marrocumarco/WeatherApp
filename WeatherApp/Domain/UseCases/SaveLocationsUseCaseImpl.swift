@@ -8,9 +8,9 @@
 import Foundation
 
 struct SaveLocationsUseCaseImpl: SaveLocationsUseCase {
-    
+
     let locationsRepository: LocationsRepository
-    
+
     func save(locations: [String]) throws {
         try locationsRepository.save(locations: locations)
     }
