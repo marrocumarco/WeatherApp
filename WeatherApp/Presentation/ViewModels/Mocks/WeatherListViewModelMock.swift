@@ -74,7 +74,7 @@ struct WeatherListViewModelMock: WeatherListViewModel {
             darkGradientColors: Gradient(stops: []),
             sunrise: "06:00",
             sunset: "18:00"
-        ),
+        )
     ]
 
     func onSearchCompleted(cityName: String) {
