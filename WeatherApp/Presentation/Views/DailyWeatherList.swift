@@ -13,7 +13,11 @@ struct DailyWeatherList: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(forecastList) { forecast in
-                    DailyWeatherCell(time: forecast.time, temperature: forecast.temperature, iconName: forecast.iconName)
+                    DailyWeatherCell(
+                        time: forecast.time,
+                        temperature: forecast.temperature,
+                        iconName: forecast.iconName
+                    )
                 }
             }
         }
