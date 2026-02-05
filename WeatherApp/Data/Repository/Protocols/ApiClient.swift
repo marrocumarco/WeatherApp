@@ -14,4 +14,3 @@ protocol ApiClient {
 
     func fetchForecastBy(_ coordinates: Coordinates, numberOfForecasts: Int) async throws -> [Forecast]
 }
-
