@@ -5,8 +5,8 @@
 //  Created by marrocumarco on 21/01/2026.
 //
 
-import MapKit
 import CoreLocation
+import MapKit
 
 struct DependencyInjectionContainer {
 
@@ -30,7 +30,10 @@ struct DependencyInjectionContainer {
         weatherUseCase = FetchWeatherUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
         forecastUseCase = FetchForecastUseCaseImpl(weatherRepository: weatherRepository, geocoder: geocoder)
         locationRepository = LocationsRepositoryImpl(localDataSource: localDataSource)
-        fetchWeatherListUseCase = FetchWeathersListUseCaseImpl(locationsRepository: locationRepository, weatherRepository: weatherRepository)
+        fetchWeatherListUseCase = FetchWeathersListUseCaseImpl(
+            locationsRepository: locationRepository,
+            weatherRepository: weatherRepository
+        )
         saveLocationsUseCase = SaveLocationsUseCaseImpl(locationsRepository: locationRepository)
     }
 
