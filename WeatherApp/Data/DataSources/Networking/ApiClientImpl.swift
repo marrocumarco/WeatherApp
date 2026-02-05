@@ -105,7 +105,7 @@ struct ApiClientImpl: ApiClient {
         case .byCoordinates(let coordinates):
             queryItems.append(contentsOf: [
                 URLQueryItem(name: "lat", value: coordinates.latitude.description),
-                URLQueryItem(name: "lon", value: coordinates.longitude.description),
+                URLQueryItem(name: "lon", value: coordinates.longitude.description)
             ])
         }
         return queryItems
