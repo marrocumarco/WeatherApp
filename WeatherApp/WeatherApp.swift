@@ -5,14 +5,14 @@
 //  Created by maomar on 02/10/25.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 let locationProvider = LocationProviderImpl(locationManager: CLLocationManager())
 
 @main
 struct WeatherApp: App {
-    
+
     init() {
         Log.logEngine = LogEngineImpl(subsystem: Bundle.main.bundleIdentifier!)
         Log.info(message: "WeatherApp is starting", category: .ui)
@@ -36,7 +36,8 @@ struct WeatherApp: App {
 
     private func buildMainView() throws -> WeatherListView {
         guard let url = Bundle.main.url(forResource: "Info", withExtension: "plist"),
-           let dict = NSDictionary(contentsOf: url) as? [String: Any] else {
+            let dict = NSDictionary(contentsOf: url) as? [String: Any]
+        else {
             throw WeatherAppError.cannotLoadPlist
         }
         let viewModel = try DependencyInjectionContainer(configurationDictionary: dict).getWeatherListViewModel()
@@ -49,5 +50,3 @@ struct WeatherApp: App {
         case cannotLoadPlist
     }
 }
-
-
