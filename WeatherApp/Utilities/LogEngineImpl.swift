@@ -11,7 +11,7 @@ struct LogEngineImpl: LogEngine {
     internal init(subsystem: String) {
         self.subsystem = subsystem
     }
-    
+
     let subsystem: String
 
     func error(message: String, category: LogCategory) {
