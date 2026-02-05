@@ -14,11 +14,11 @@ struct WeatherRepositoryImpl: WeatherRepository {
     func fetchWeatherBy(_ coordinates: Coordinates) async throws -> Weather {
         try await apiClient.fetchWeatherBy(coordinates)
     }
-    
+
     func fetchWeatherBy(_ cityName: String) async throws -> Weather {
         try await apiClient.fetchWeatherBy(cityName)
     }
-    
+
     func fetchForecastBy(_ coordinates: Coordinates, numberOfForecasts: Int) async throws -> [Forecast] {
         try await apiClient.fetchForecastBy(coordinates, numberOfForecasts: numberOfForecasts)
     }
