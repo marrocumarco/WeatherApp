@@ -12,7 +12,6 @@ import Testing
 struct LogEngineImplTests {
 
     @Test func `log engine implements LogEngine`() async throws {
-        let logEngine = LogEngineImpl(subsystem: "test")
-        #expect(logEngine is LogEngine)
+        let _ : LogEngine = LogEngineImpl(subsystem: "test")
     }
 }
