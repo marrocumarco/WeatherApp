@@ -27,6 +27,6 @@ public class WeatherViewModelMock: WeatherViewModel {
     var forecast: [ForecastUI] = [
         ForecastUI(time: "14", temperature: "23,5°", iconName: "sun"),
         ForecastUI(time: "15", temperature: "22,5°", iconName: "cloud"),
-        ForecastUI(time: "16", temperature: "21,5°", iconName: "rain"),
+        ForecastUI(time: "16", temperature: "21,5°", iconName: "rain")
     ]
 }
