@@ -8,13 +8,13 @@
 import Foundation
 
 struct LocationsRepositoryImpl: LocationsRepository {
-    
+
     let localDataSource: LocalDataSource
-    
+
     func save(locations: [String]) throws {
         try localDataSource.save(locations: locations)
     }
-    
+
     func getLocations() throws -> [String] {
         localDataSource.getLocations()
     }
