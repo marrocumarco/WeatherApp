@@ -8,7 +8,13 @@
 import Foundation
 
 struct ForecastApi: Decodable {
-    let dt: Int
+    let date: Int
     let main: ForecastMain
     let weather: [WeatherApi]
+
+    enum CodingKeys: String, CodingKey {
+        case date = "dt"
+        case main
+        case weather
+    }
 }

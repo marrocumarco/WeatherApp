@@ -13,7 +13,7 @@ struct ForecastQueryResponse: Decodable {
     func toForecast() throws -> [Forecast] {
         try list.map {
             Forecast(
-                date: Date(timeIntervalSince1970: TimeInterval($0.dt)),
+                date: Date(timeIntervalSince1970: TimeInterval($0.date)),
                 weatherClass: try WeatherClassProvider.weatherClass(for: $0.weather.first?.id ?? 0),
                 temperature: $0.main.temp
             )
