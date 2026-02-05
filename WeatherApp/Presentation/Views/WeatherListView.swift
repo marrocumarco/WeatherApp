@@ -82,7 +82,7 @@ struct WeatherListView: View {
                     }
             }
             if let selectedWeather {
-                WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, ns: ns)
+                WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, namespace: ns)
                     .offset(y: offset)
                     .gesture(
                         DragGesture().onChanged { value in

@@ -11,7 +11,7 @@ struct WeatherDetailView: View {
 
     var weather: WeatherUI
     var forecastList: [ForecastUI]
-    var ns: Namespace.ID
+    var namespace: Namespace.ID
 
     var body: some View {
         VStack(spacing: 40) {
@@ -37,7 +37,7 @@ struct WeatherDetailView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .background(.ultraThinMaterial)
-        .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns)
+        .matchedGeometryEffect(id: "frame-\(weather.id)", in: namespace)
         .cornerRadius(12)
     }
 }
@@ -77,7 +77,7 @@ struct DailyCardView: View {
                 ForecastUI(time: "15", temperature: "22.5°", iconName: "cloud"),
                 ForecastUI(time: "16", temperature: "21.5°", iconName: "cloud.rain"),
             ]
-            return WeatherDetailView(weather: sampleWeather, forecastList: sampleForecast, ns: ns)
+            return WeatherDetailView(weather: sampleWeather, forecastList: sampleForecast, namespace: ns)
                 .padding()
         }
     }
