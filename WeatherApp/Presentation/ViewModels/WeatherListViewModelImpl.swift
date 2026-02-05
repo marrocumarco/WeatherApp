@@ -64,7 +64,7 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
             }
         }
     }
-    
+
     fileprivate func saveLocations() throws {
         try saveLocationsUseCase.save(locations: weathersList.filter { !$0.isCurrentLocation }.map(\.locationName))
     }
@@ -116,7 +116,7 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
             weathersList.move(fromOffsets: source, toOffset: destination)
             try saveLocations()
         } catch {
-            
+
         }
     }
 
@@ -125,7 +125,7 @@ final class WeatherListViewModelImpl: WeatherListViewModel, LocationProviderDele
             weathersList.remove(atOffsets: offsets)
             try saveLocations()
         } catch {
-            
+
         }
     }
 
@@ -153,7 +153,7 @@ extension WeatherListViewModelImpl: SuggestionsProviderDelegate {
     func onSuggestionsReceived(result: [String]) {
         locationSuggestions = result
     }
-    
+
     func onError(error: any Error) {
 
     }
