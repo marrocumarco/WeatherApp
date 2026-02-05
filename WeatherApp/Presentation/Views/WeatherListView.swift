@@ -23,7 +23,7 @@ struct WeatherListView: View {
                 List {
                     ForEach($viewModel.weathersList) { weather in
                         let isPresented = selectedWeather == weather.wrappedValue
-                        WeatherListViewCell(weather: weather.wrappedValue, ns: namespace, isSource: !isPresented)
+                        WeatherListViewCell(weather: weather.wrappedValue, namespace: namespace, isSource: !isPresented)
 
                             .moveDisabled(
                                 weather.wrappedValue.isCurrentLocation
@@ -111,7 +111,7 @@ struct WeatherListView: View {
 struct WeatherListViewCell: View {
 
     var weather: WeatherUI
-    var ns: Namespace.ID
+    var namespace: Namespace.ID
     var isSource: Bool
     @Environment(\.colorScheme) private var colorScheme
 
