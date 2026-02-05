@@ -8,10 +8,10 @@
 import Foundation
 
 struct FetchWeatherUseCaseImpl: FetchWeatherUseCase {
-    
+
     let weatherRepository: WeatherRepository
     let geocoder: Geocoder
-    
+
     func fetchWeatherFor(_ location: Coordinates) async throws -> Weather {
         return try await weatherRepository.fetchWeatherBy(location)
     }
