@@ -15,7 +15,7 @@ struct WeatherApp: App {
 
     init() {
         Log.logEngine = LogEngineImpl(subsystem: Bundle.main.bundleIdentifier!)
-        Log.info(message: "WeatherApp is starting", category: .ui)
+        Log.info(message: "WeatherApp is starting", category: .userInterface)
     }
 
     var body: some Scene {
