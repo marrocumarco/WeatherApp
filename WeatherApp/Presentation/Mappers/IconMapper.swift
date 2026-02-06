@@ -5,7 +5,6 @@
 //  Created by marrocumarco on 14/12/2025.
 //
 
-
 struct IconMapper {
     static func iconName(for weatherClass: WeatherClass) -> String {
         switch weatherClass {

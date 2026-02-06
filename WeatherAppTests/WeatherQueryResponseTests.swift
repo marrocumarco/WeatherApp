@@ -21,7 +21,7 @@ final class WeatherQueryResponseTests: XCTestCase {
         let main = MainInfoApi(temperature: 20, feelsLike: 18, minimumTemperature: 5, maximumTemperature: 27, pressure: 1800, humidity: 55)
         let sys = SystemInfoApi(country: "FR", sunrise: 1765869743, sunset: 1765905743)
         let weatherApi = WeatherApi(id: 511, main: "Sunny", description: "Description says sunny")
-        sut = WeatherQueryResponse(name: "Paris", dt: 1765916286, timezone: 0, weather: [weatherApi], main: main, sys: sys)
+        sut = WeatherQueryResponse(name: "Paris", date: 1765916286, timezone: 0, weather: [weatherApi], main: main, sys: sys)
 
         let weather = try sut.toWeather()
 
@@ -33,7 +33,7 @@ final class WeatherQueryResponseTests: XCTestCase {
     func test_toWeather_fail_emptyWeatherList() throws {
         let main = MainInfoApi(temperature: 20, feelsLike: 18, minimumTemperature: 5, maximumTemperature: 27, pressure: 1800, humidity: 55)
         let sys = SystemInfoApi(country: "FR", sunrise: 1765869743, sunset: 1765905743)
-        sut = WeatherQueryResponse(name: "Paris", dt: 1765916286, timezone: 0, weather: [], main: main, sys: sys)
+        sut = WeatherQueryResponse(name: "Paris", date: 1765916286, timezone: 0, weather: [], main: main, sys: sys)
 
         XCTAssertThrowsError(try sut.toWeather())
     }
@@ -42,7 +42,7 @@ final class WeatherQueryResponseTests: XCTestCase {
         let main = MainInfoApi(temperature: 20, feelsLike: 18, minimumTemperature: 5, maximumTemperature: 27, pressure: 1800, humidity: 55)
         let sys = SystemInfoApi(country: "FR", sunrise: 1765869743, sunset: 1765905743)
         let weatherApi = WeatherApi(id: 1, main: "Sunny", description: "Description says sunny")
-        sut = WeatherQueryResponse(name: "Paris", dt: 1765916286, timezone: -123412, weather: [weatherApi], main: main, sys: sys)
+        sut = WeatherQueryResponse(name: "Paris", date: 1765916286, timezone: -123412, weather: [weatherApi], main: main, sys: sys)
 
         XCTAssertThrowsError(try sut.toWeather())
     }

@@ -13,7 +13,10 @@ struct GeocoderImpl: Geocoder {
             do {
                 let mapitems = try await request.mapItems
                 if let mapitem = mapitems.first {
-                    return Coordinates(latitude: mapitem.location.coordinate.latitude, longitude: mapitem.location.coordinate.longitude)
+                    return Coordinates(
+                        latitude: mapitem.location.coordinate.latitude,
+                        longitude: mapitem.location.coordinate.longitude
+                    )
                 }
             } catch {
                 throw GeocoderImplError.cordinatesNotFound
@@ -21,7 +24,7 @@ struct GeocoderImpl: Geocoder {
         }
         throw GeocoderImplError.invalidAddress
     }
-    
+
     enum GeocoderImplError: Error {
         case invalidAddress
         case cordinatesNotFound

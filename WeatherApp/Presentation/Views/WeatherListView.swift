@@ -11,7 +11,7 @@ struct WeatherListView: View {
     @Environment(\.colorScheme) var colorScheme
     @State var viewModel: WeatherListViewModel
     @State var searchText: String = ""
-    @Namespace var ns
+    @Namespace var namespace
     @State var selectedWeather: WeatherUI?
     @State var offset: CGFloat = 0
     @State var isSearchFocused: Bool = false
@@ -23,13 +23,13 @@ struct WeatherListView: View {
                 List {
                     ForEach($viewModel.weathersList) { weather in
                         let isPresented = selectedWeather == weather.wrappedValue
-                        WeatherListViewCell(weather: weather.wrappedValue, ns: ns, isSource: !isPresented)
+                        WeatherListViewCell(weather: weather.wrappedValue, namespace: namespace, isSource: !isPresented)
 
                             .moveDisabled(
                                 weather.wrappedValue.isCurrentLocation
                             )
                             .deleteDisabled(weather.wrappedValue.isCurrentLocation)
-                            .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns, isSource: !isPresented)
+                            .matchedGeometryEffect(id: "frame-\(weather.id)", in: namespace, isSource: !isPresented)
                             .listRowBackground(Color.clear)
                             .onTapGesture {
                                 viewModel.onWeatherSelected(weather: weather.wrappedValue)
@@ -82,7 +82,7 @@ struct WeatherListView: View {
                     }
             }
             if let selectedWeather {
-                WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, ns: ns)
+                WeatherDetailView(weather: selectedWeather, forecastList: viewModel.forecastList, namespace: namespace)
                     .offset(y: offset)
                     .gesture(
                         DragGesture().onChanged { value in
@@ -111,7 +111,7 @@ struct WeatherListView: View {
 struct WeatherListViewCell: View {
 
     var weather: WeatherUI
-    var ns: Namespace.ID
+    var namespace: Namespace.ID
     var isSource: Bool
     @Environment(\.colorScheme) private var colorScheme
 
@@ -157,4 +157,3 @@ struct WeatherListViewCell: View {
 #Preview {
     WeatherListView(viewModel: WeatherListViewModelMock())
 }
-

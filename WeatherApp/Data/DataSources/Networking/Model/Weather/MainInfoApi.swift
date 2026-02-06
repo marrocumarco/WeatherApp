@@ -14,7 +14,7 @@ struct MainInfoApi: Decodable {
     let maximumTemperature: Double
     let pressure: Int
     let humidity: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case temperature = "temp"
         case feelsLike = "feels_like"

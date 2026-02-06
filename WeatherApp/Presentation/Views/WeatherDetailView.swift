@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct WeatherDetailView: View {
-    
+
     var weather: WeatherUI
     var forecastList: [ForecastUI]
-    var ns: Namespace.ID
-    
+    var namespace: Namespace.ID
+
     var body: some View {
         VStack(spacing: 40) {
             VStack {
@@ -37,26 +37,25 @@ struct WeatherDetailView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .background(.ultraThinMaterial)
-        .matchedGeometryEffect(id: "frame-\(weather.id)", in: ns)
+        .matchedGeometryEffect(id: "frame-\(weather.id)", in: namespace)
         .cornerRadius(12)
     }
 }
-
 
 struct DailyCardView: View {
     var forecastList: [ForecastUI]
     var body: some View {
         DailyWeatherList(forecastList: forecastList)
-        .padding(.vertical)
-        .background(.ultraThinMaterial)
-        .cornerRadius(16)
-        .padding(.horizontal)
+            .padding(.vertical)
+            .background(.ultraThinMaterial)
+            .cornerRadius(16)
+            .padding(.horizontal)
     }
 }
 
 #Preview {
     struct PreviewContainer: View {
-        @Namespace var ns
+        @Namespace var namespace
         var body: some View {
             let sampleWeather = WeatherUI(
                 isCurrentLocation: true,
@@ -78,10 +77,9 @@ struct DailyCardView: View {
                 ForecastUI(time: "15", temperature: "22.5°", iconName: "cloud"),
                 ForecastUI(time: "16", temperature: "21.5°", iconName: "cloud.rain")
             ]
-            return WeatherDetailView(weather: sampleWeather, forecastList: sampleForecast, ns: ns)
+            return WeatherDetailView(weather: sampleWeather, forecastList: sampleForecast, namespace: namespace)
                 .padding()
         }
     }
     return PreviewContainer()
 }
-

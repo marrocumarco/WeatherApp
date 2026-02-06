@@ -12,7 +12,7 @@ struct ForecastUI: Identifiable {
     let time: String
     let temperature: String
     let iconName: String
-    
+
     static func from(forecast: Forecast) -> Self {
         ForecastUI(
             time: forecast.date.formatted(.dateTime.hour(.twoDigits(amPM: .omitted))),

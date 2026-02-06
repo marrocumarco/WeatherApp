@@ -44,7 +44,8 @@ final class LocationProviderImpl: NSObject, LocationProvider {
 }
 
 extension LocationProviderImpl: CLLocationManagerDelegate {
-    
+
+    // swiftlint:disable:next identifier_name
     func locationManager(_ f: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         guard isLocationAuthorized else {
@@ -59,7 +60,9 @@ extension LocationProviderImpl: CLLocationManagerDelegate {
         locationProviderDelegate?.onLocationAvailable(coordinates: coordinates)
     }
 
-    private var isLocationAuthorized: Bool { locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse
+    private var isLocationAuthorized: Bool {
+        locationManager.authorizationStatus == .authorizedAlways
+            || locationManager.authorizationStatus == .authorizedWhenInUse
     }
 
     private func signal(_ error: LocationProviderError) {

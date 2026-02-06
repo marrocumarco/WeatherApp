@@ -17,7 +17,7 @@ protocol LogEngine {
 struct Log {
 
     private init() {}
-    
+
     static var logEngine: LogEngine?
 
     static var assertionHandler: (String, StaticString, UInt) -> Void = { message, file, line in

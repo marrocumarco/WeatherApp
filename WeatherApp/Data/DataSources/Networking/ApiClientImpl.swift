@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 extension URLSession: NetworkSession {}
 
 struct ApiClientImpl: ApiClient {
@@ -52,27 +50,27 @@ struct ApiClientImpl: ApiClient {
             throw ApiClientImplError.httpError(statusCode)
         }
     }
-    
+
     private func fetchForecast(_ mode: FetchMode, numberOfForecasts: Int) async throws -> [Forecast] {
         let url = baseURL.appendingPathComponent(forecastEndPoint)
-        
+
         let apiCodeQueryItem = URLQueryItem(name: "appId", value: apiKey)
-        
+
         var queryItems = buildQueryItems(for: mode)
-        
+
         queryItems.append(URLQueryItem(name: "cnt", value: numberOfForecasts.description))
-        
+
         queryItems.append(apiCodeQueryItem)
-        
+
         let request = URLRequest(url: url.appending(queryItems: queryItems))
-        
+
         let (data, response) = try await networkSession.data(for: request)
 
         try check(response)
 
         return try JSONDecoder().decode(ForecastQueryResponse.self, from: data).toForecast()
     }
-    
+
     func fetchWeatherBy(_ coordinates: Coordinates) async throws -> Weather {
         try await fetchWeather(.byCoordinates(coordinates))
     }
@@ -117,7 +115,7 @@ struct ApiClientImpl: ApiClient {
         case byCityName(String)
         case byCoordinates(Coordinates)
     }
-    
+
     enum ApiClientImplError: Error {
         case cannotInitializeClient
         case httpError(Int)
@@ -125,4 +123,3 @@ struct ApiClientImpl: ApiClient {
         case serverError(Int)
     }
 }
-
